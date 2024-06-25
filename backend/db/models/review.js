@@ -14,9 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 				{
 					foreignKey: 'userId',
 				},
-				{
-					onDelete: 'CASCADE',
-				}
+			
 			);
 			// belongs to for SPOTS
 			Review.belongsTo(
@@ -24,19 +22,14 @@ module.exports = (sequelize, DataTypes) => {
 				{
 					foreignKey: 'spotId',
 				},
-				{
-					onDelete: 'CASCADE',
-				}
 			);
 			// has many for REVIEW-IMAGES
 			Review.hasMany(
 				models.Review,
 				{
 					foreignKey: 'reviewId',
-				},
-				{
 					onDelete: 'CASCADE',
-				}
+				},
 			);
 		}
 	}

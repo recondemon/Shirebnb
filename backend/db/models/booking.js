@@ -13,9 +13,6 @@ module.exports = (sequelize, DataTypes) => {
 				{
 					foreignKey: 'userId',
 				},
-				{
-					onDelete: 'CASCADE',
-				}
 			);
 
 			Booking.belongsTo(
@@ -23,9 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 				{
 					foreignKey: 'spotId',
 				},
-				{
-					onDelete: 'CASCADE',
-				}
+
 			);
 		}
 	}
