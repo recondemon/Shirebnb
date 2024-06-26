@@ -2,13 +2,9 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
 	class Spot extends Model {
-		/**
-		 * Helper method for defining associations.
-		 * This method is not a part of Sequelize lifecycle.
-		 * The `models/index` file will call this method automatically.
-		 */
+		
 		static associate(models) {
-			// belongs to for OWNERS/USERS
+			
 			Spot.belongsTo(
 				models.User,
 				{
@@ -17,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 				},
 				
 			);
-			// has many for BOOKINGS
+	
 			Spot.hasMany(
 				models.Booking,
 				{
@@ -26,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
 				},
 	
 			);
-			// has many for SPOT-IMAGES
+		
 			Spot.hasMany(
 				models.SpotImage,
 				{
@@ -36,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 				},
 			
 			);
-			// has many for REVIEWS
+			
 			Spot.hasMany(
 				models.Review,
 				{

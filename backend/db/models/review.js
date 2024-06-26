@@ -2,13 +2,9 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
 	class Review extends Model {
-		/**
-		 * Helper method for defining associations.
-		 * This method is not a part of Sequelize lifecycle.
-		 * The `models/index` file will call this method automatically.
-		 */
+	
 		static associate(models) {
-			// belongs to for USERS
+			
 			Review.belongsTo(
 				models.User,
 				{
@@ -16,14 +12,15 @@ module.exports = (sequelize, DataTypes) => {
 				},
 			
 			);
-			// belongs to for SPOTS
+		
 			Review.belongsTo(
 				models.Spot,
 				{
 					foreignKey: 'spotId',
+					as : 'Reviews',
 				},
 			);
-			// has many for REVIEW-IMAGES
+		
 			Review.hasMany(
 				models.Review,
 				{

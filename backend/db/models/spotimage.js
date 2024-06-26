@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 				models.Spot,
 				{
 					foreignKey: 'spotId',
+					as: 'SpotImages',
 				},
 
 			);
