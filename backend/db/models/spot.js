@@ -27,7 +27,6 @@ module.exports = (sequelize, DataTypes) => {
 				models.SpotImage,
 				{
 					foreignKey: 'spotId',
-					as: 'SpotImages',
 					onDelete: 'CASCADE',
 				},
 			
@@ -37,7 +36,6 @@ module.exports = (sequelize, DataTypes) => {
 				models.Review,
 				{
 					foreignKey: 'spotId',
-					as: 'Reviews',
 					onDelete: 'CASCADE',
 				},
 			

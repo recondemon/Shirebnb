@@ -151,6 +151,7 @@ router.get("/current", requireAuth, async (req, res) => {
         {
           model: SpotImage,
           attributes: ['url'],
+          as: 'SpotImages',
           where: {
             preview: true
           },
@@ -163,18 +164,16 @@ router.get("/current", requireAuth, async (req, res) => {
       ],
       attributes: {
         include: [
-          [Spot.sequelize.fn("AVG", Spot.sequelize.col("Reviews.stars")), "avgRating"]
-        ]
-      },
-      group: ['Spot.id', 'SpotImages.id']
+          [Sequelize.literal(`(SELECT AVG(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)`), 'avgRating']
+        ],
+        exclude: ['createdAt', 'updatedAt'] // Exclude fields if not needed
+      }
     });
 
-    res.status(200);
-    return res.json({ "Spots": spots });
+    res.status(200).json({ "Spots": spots });
   } catch (err) {
-    console.error(err);
-    res.status(500);
-    return res.json({ "message": "Server error" });
+    console.error("Error fetching current user spots: ", err);
+    res.status(500).json({ "message": "Server error", "error": err.message });
   }
 });
 
