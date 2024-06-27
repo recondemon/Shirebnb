@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
 			);
 		
 			Review.hasMany(
-				models.Review,
+				models.ReviewImage,
 				{
 					foreignKey: 'reviewId',
 					onDelete: 'CASCADE',

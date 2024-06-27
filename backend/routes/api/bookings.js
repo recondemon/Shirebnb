@@ -1,6 +1,6 @@
 const express = require("express");
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Booking, Spot } = require("../../db/models");
+const { Booking, Spot, ReviewImage, SpotImage } = require("../../db/models");
 const { Op } = require("sequelize");
 
 const router = express.Router();
@@ -15,7 +15,7 @@ router.get("/current", requireAuth, async (req, res) => {
     include: [
       {
         model: Spot,
-        attributes: ["id", "ownerId", "address", "city", "state", "country", "lat", "lng", "name", "price", "previewImage"]
+        attributes: ["id", "ownerId", "address", "city", "state", "country", "lat", "lng", "name", "price"]
       }
     ]
   });

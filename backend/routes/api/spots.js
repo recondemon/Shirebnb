@@ -1,12 +1,76 @@
 const express = require('express');
-const { Spot, SpotImage, Review, Booking, User } = require('../../db/models');
+const { Spot, SpotImage, Review, Booking, User, ReviewImage } = require('../../db/models');
 
 const { Op, Sequelize } = require('sequelize');
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
-
+const formatDate = (date) => {
+  const isoString = date.toISOString();
+  return isoString.substring(0, 19).replace('T', ' ');
+};
 
 /****** GET ROUTES ******************************************/
+
+// Get spots by current user
+router.get('/current', requireAuth, async (req, res, next) => {
+  
+  try {
+      const spots = await Spot.findAll({
+          where: {
+              ownerId: req.user.id,
+          },
+      });
+
+      const response = await Promise.all(
+          spots.map(async (spot) => {
+              const reviews = await Review.findAll({
+                  where: {
+                      spotId: spot.id,
+                  },
+                  attributes: ['stars'],
+              });
+
+              const avgRating =
+                  reviews.length > 0
+                      ? (
+                              reviews.reduce((sum, review) => sum + review.stars, 0) /
+                              reviews.length
+                        ).toFixed(1)
+                      : null;
+
+              const spotImage = await SpotImage.findOne({
+                  where: {
+                      spotId: spot.id,
+                      preview: true,
+                  },
+                  attributes: ['url'],
+              });
+
+              return {
+                  id: spot.id,
+                  ownerId: spot.ownerId,
+                  address: spot.address,
+                  city: spot.city,
+                  state: spot.state,
+                  country: spot.country,
+                  lat: parseFloat(spot.lat),
+                  lng: parseFloat(spot.lng),
+                  name: spot.name,
+                  description: spot.description,
+                  price: spot.price,
+                  createdAt: formatDate(spot.createdAt),
+                  updatedAt: formatDate(spot.updatedAt),
+                  avgRating,
+                  previewImage: spotImage ? spotImage.url : null,
+              };
+          })
+      );
+
+      res.status(200).json({ Spots: response });
+  } catch (err) {
+      next(err);
+  }
+});
 
 // Get details of a spot by spotId
 router.get("/:spotId", async (req, res) => {
@@ -139,43 +203,6 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
   }
 });
 
-// Get spots by current user
-router.get("/current", requireAuth, async (req, res) => {
-  try {
-    let currentUser = req.user;
-    let spots = await Spot.findAll({
-      where: {
-        ownerId: currentUser.id
-      },
-      include: [
-        {
-          model: SpotImage,
-          attributes: ['url'],
-          as: 'SpotImages',
-          where: {
-            preview: true
-          },
-          required: false
-        },
-        {
-          model: Review,
-          attributes: []
-        }
-      ],
-      attributes: {
-        include: [
-          [Sequelize.literal(`(SELECT AVG(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)`), 'avgRating']
-        ],
-        exclude: ['createdAt', 'updatedAt'] // Exclude fields if not needed
-      }
-    });
-
-    res.status(200).json({ "Spots": spots });
-  } catch (err) {
-    console.error("Error fetching current user spots: ", err);
-    res.status(500).json({ "message": "Server error", "error": err.message });
-  }
-});
 
 // Get all spots
 router.get("/", async (req, res) => {
@@ -350,56 +377,51 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
 });
 
 // Create a review for a spot
-router.post("/:spotId/reviews", requireAuth, async (req, res) => {
-  try {
-    let currentUser = req.user;
-    let spotId = req.params.spotId;
-
-    let spot = await Spot.findOne({
-      where: {
-        id: spotId,
-      }
-    });
-
-    if (!spot) {
-      res.status(404);
-      return res.json({ "message": "Spot could not be found" });
-    }
-
-    let existingReview = await Review.findOne({
-      where: {
-        spotId: spotId,
-        userId: currentUser.id
-      }
-    });
-
-    let { review, stars } = req.body;
-
-    let errors = {};
-    if (!review) errors.review = "Review text is required";
-    if (!stars || isNaN(stars) || stars > 5 || stars < 1) errors.stars = "Stars must be from 1 to 5";
-    if (Object.keys(errors).length > 0) {
-      res.status(400);
-      return res.json({
-        "message": "Bad Request",
-        errors
-      })
-    }
-
-    if (existingReview) {
-      res.status(500);
-      return res.json({ "message": "User already has a review for this spot" });
-    } else {
-      let createReview = await Review.create({
-        spotId, userId: currentUser.id, review, stars
+router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+  const spotId = req.params.spotId;
+  const userId = req.user.id;
+  const { review, stars } = req.body;
+  const spot = await Spot.findByPk(spotId);
+  if (!spot) {
+      return res.status(404).json({
+          message: "Spot couldn't be found",
       });
-      res.status(201);
-      return res.json(createReview);
-    }
-  } catch (err) {
-    res.status(500);
-    return res.json({ "message": "Server error" });
   }
+  const currReview = await Review.findOne({
+      where: {
+          spotId,
+          userId,
+      },
+  });
+  if (currReview) {
+      return res.status(500).json({
+          message: 'User already has a review for this spot',
+      });
+  }
+  if (!review || stars == null) {
+      return res.status(400).json({
+          message: 'Validation error',
+          errors: {
+              review: 'Review text is required',
+              stars: 'Stars must be an integer from 1 to 5',
+          },
+      });
+  }
+  if (stars < 1 || stars > 5 || !Number.isInteger(stars)) {
+      return res.status(400).json({
+          message: 'Validation error',
+          errors: {
+              stars: 'Stars must be an integer from 1 to 5',
+          },
+      });
+  }
+  const newReview = await Review.create({
+      userId,
+      spotId,
+      review,
+      stars,
+  });
+  res.status(201).json(newReview);
 });
 
 // Create a booking for a spot
@@ -521,7 +543,7 @@ router.put("/:spotId", requireAuth, async (req, res) => {
       if (!name || name.length > 50) errors.name = "Name must be less than 50 characters";
       if (!description) errors.description = "Description is required";
       if (!price || isNaN(price) || price < 0) errors.price = "Price per day is required and must be a number equal to or greater than 0";
-      if (!previewImage) errors.previewImage = "Preview image is required";
+      // if (!previewImage) errors.previewImage = "Preview image is required";
 
       if (Object.keys(errors).length > 0) {
         res.status(400);
