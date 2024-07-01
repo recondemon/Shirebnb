@@ -97,24 +97,14 @@ router.get("/:spotId", async (req, res) => {
       return res.json({ "message": "Spot could not be found" });
     }
 
-    let numReviews = await Review.aggregate("spotId", "count", { where: { spotId } });
-    let findSumOfStarRatings = await Review.findOne({
-      attributes: [
-        [Spot.sequelize.literal("SUM(stars)"), "totalStars"]
-      ],
-      where: {
-        spotId: spot.id
-      }
+    let reviews = await Review.findAll({
+      where: { spotId: spot.id },
+      attributes: ["stars"]
     });
 
-    let sumOfStarRating = findSumOfStarRatings.dataValues.totalStars
-    let numberOfStarRatings = await Review.count({
-      where: {
-        spotId: spot.id
-      }
-    });
-
-    let avgStarRating = Math.round((sumOfStarRating / numberOfStarRatings) * 10) / 10;
+    let numReviews = reviews.length;
+    let sumOfStarRating = reviews.reduce((sum, review) => sum + review.stars, 0);
+    let avgStarRating = numReviews > 0 ? (sumOfStarRating / numReviews).toFixed(1) : "no reviews yet!";
 
     spot.dataValues.numReviews = numReviews;
     spot.dataValues.avgStarRating = avgStarRating;
@@ -277,22 +267,36 @@ router.get("/", async (req, res) => {
     const totalSpots = await Spot.count({ where });
     const returnedSpots = results.length;
 
-    const spots = results.map(spot => ({
-      id: spot.id,
-      ownerId: spot.ownerId,
-      address: spot.address,
-      city: spot.city,
-      state: spot.state,
-      country: spot.country,
-      lat: spot.lat,
-      lng: spot.lng,
-      name: spot.name,
-      description: spot.description,
-      price: spot.price,
-      createdAt: formatDate(spot.createdAt),
-      updatedAt: formatDate(spot.updatedAt),
-      avgRating: spot.avgRating, // Assuming avgRating is a property of spot
-      previewImage: spot.SpotImages.length > 0 ? spot.SpotImages[0].url : null // Assuming SpotImages is an array
+    const spots = await Promise.all(results.map(async (spot) => {
+      const reviews = await Review.findAll({
+        where: { spotId: spot.id },
+        attributes: ['stars']
+      });
+
+      const avgRating = reviews.length > 0
+        ? (
+            reviews.reduce((sum, review) => sum + review.stars, 0) /
+            reviews.length
+          ).toFixed(1)
+        : "no ratings yet!";
+
+      return {
+        id: spot.id,
+        ownerId: spot.ownerId,
+        address: spot.address,
+        city: spot.city,
+        state: spot.state,
+        country: spot.country,
+        lat: spot.lat,
+        lng: spot.lng,
+        name: spot.name,
+        description: spot.description,
+        price: spot.price,
+        createdAt: formatDate(spot.createdAt),
+        updatedAt: formatDate(spot.updatedAt),
+        avgRating,
+        previewImage: spot.SpotImages.length > 0 ? spot.SpotImages[0].url : "No preview image available"
+      };
     }));
 
     res.status(200).json({
@@ -308,7 +312,6 @@ router.get("/", async (req, res) => {
     res.status(500).json({ "message": "Server error" });
   }
 });
-
 /****** POST ROUTES ******************************************/
 
 // Create a spot belonging to the current user
@@ -323,6 +326,8 @@ router.post("/", requireAuth, async (req, res) => {
     if (!city) errors.city = "City is required";
     if (!state) errors.state = "State is required";
     if (!country) errors.country = "Country is required";
+    if(lat < -90 || lat > 90) errors.lat = "Latitude must be between -90 and 90";
+    if(lng < -180 || lng > 180) errors.lng = "Longitude must be between -180 and 180";
     if (!lat || isNaN(lat)) errors.lat = "Latitude is invalid";
     if (!lng || isNaN(lng)) errors.lng = "Longitude is invalid";
     if (!name || name.length > 50) errors.name = "Name must be less than 50 characters";
@@ -554,12 +559,14 @@ router.put("/:spotId", requireAuth, async (req, res) => {
       if (!city) errors.city = "City is required";
       if (!state) errors.state = "State is required";
       if (!country) errors.country = "Country is required";
+      if(lat < -90 || lat > 90) errors.lat = "Latitude must be between -90 and 90";
+      if(lng < -180 || lng > 180) errors.lng = "Longitude must be between -180 and 180";
       if (!lat || isNaN(lat)) errors.lat = "Latitude is invalid";
       if (!lng || isNaN(lng)) errors.lng = "Longitude is invalid";
       if (!name || name.length > 50) errors.name = "Name must be less than 50 characters";
       if (!description) errors.description = "Description is required";
       if (!price || isNaN(price) || price < 0) errors.price = "Price per day is required and must be a number equal to or greater than 0";
-      // if (!previewImage) errors.previewImage = "Preview image is required";
+      
 
       if (Object.keys(errors).length > 0) {
         res.status(400);
