@@ -13,62 +13,61 @@ const formatDate = (date) => {
 
 // Get spots by current user
 router.get('/current', requireAuth, async (req, res, next) => {
-  
   try {
-      const spots = await Spot.findAll({
+    const spots = await Spot.findAll({
+      where: {
+        ownerId: req.user.id,
+      },
+    });
+
+    const response = await Promise.all(
+      spots.map(async (spot) => {
+        const reviews = await Review.findAll({
           where: {
-              ownerId: req.user.id,
+            spotId: spot.id,
           },
-      });
+          attributes: ['stars'],
+        });
 
-      const response = await Promise.all(
-          spots.map(async (spot) => {
-              const reviews = await Review.findAll({
-                  where: {
-                      spotId: spot.id,
-                  },
-                  attributes: ['stars'],
-              });
+        const avgRating =
+          reviews.length > 0
+            ? (
+                reviews.reduce((sum, review) => sum + review.stars, 0) /
+                reviews.length
+              ).toFixed(1)
+            : "no ratings yet!";
 
-              const avgRating =
-                  reviews.length > 0
-                      ? (
-                              reviews.reduce((sum, review) => sum + review.stars, 0) /
-                              reviews.length
-                        ).toFixed(1)
-                      : null;
+        const spotImage = await SpotImage.findOne({
+          where: {
+            spotId: spot.id,
+            preview: true,
+          },
+          attributes: ['url'],
+        });
 
-              const spotImage = await SpotImage.findOne({
-                  where: {
-                      spotId: spot.id,
-                      preview: true,
-                  },
-                  attributes: ['url'],
-              });
+        return {
+          id: spot.id,
+          ownerId: spot.ownerId,
+          address: spot.address,
+          city: spot.city,
+          state: spot.state,
+          country: spot.country,
+          lat: parseFloat(spot.lat),
+          lng: parseFloat(spot.lng),
+          name: spot.name,
+          description: spot.description,
+          price: spot.price,
+          createdAt: formatDate(spot.createdAt),
+          updatedAt: formatDate(spot.updatedAt),
+          avgRating,
+          previewImage: spotImage ? spotImage.url : "No preview image available",
+        };
+      })
+    );
 
-              return {
-                  id: spot.id,
-                  ownerId: spot.ownerId,
-                  address: spot.address,
-                  city: spot.city,
-                  state: spot.state,
-                  country: spot.country,
-                  lat: parseFloat(spot.lat),
-                  lng: parseFloat(spot.lng),
-                  name: spot.name,
-                  description: spot.description,
-                  price: spot.price,
-                  createdAt: formatDate(spot.createdAt),
-                  updatedAt: formatDate(spot.updatedAt),
-                  avgRating,
-                  previewImage: spotImage ? spotImage.url : null,
-              };
-          })
-      );
-
-      res.status(200).json({ Spots: response });
+    res.status(200).json({ Spots: response });
   } catch (err) {
-      next(err);
+    next(err);
   }
 });
 
@@ -227,7 +226,6 @@ router.get("/", async (req, res) => {
       offset: (page - 1) * size
     };
 
-    
     const latLngValidation = (value, type) => {
       const num = parseFloat(value);
       if (isNaN(num) || num < (type === 'lat' ? -90 : -180) || num > (type === 'lat' ? 90 : 180)) {
@@ -279,8 +277,26 @@ router.get("/", async (req, res) => {
     const totalSpots = await Spot.count({ where });
     const returnedSpots = results.length;
 
+    const spots = results.map(spot => ({
+      id: spot.id,
+      ownerId: spot.ownerId,
+      address: spot.address,
+      city: spot.city,
+      state: spot.state,
+      country: spot.country,
+      lat: spot.lat,
+      lng: spot.lng,
+      name: spot.name,
+      description: spot.description,
+      price: spot.price,
+      createdAt: formatDate(spot.createdAt),
+      updatedAt: formatDate(spot.updatedAt),
+      avgRating: spot.avgRating, // Assuming avgRating is a property of spot
+      previewImage: spot.SpotImages.length > 0 ? spot.SpotImages[0].url : null // Assuming SpotImages is an array
+    }));
+
     res.status(200).json({
-      "Spots": results,
+      "Spots": spots,
       "page": page,
       "size": size,
       "returnedSpots": returnedSpots,
