@@ -1,3 +1,5 @@
+// frontend/src/store/session.js
+
 import { csrfFetch } from './csrf';
 
 const SET_SESSION_USER = 'session/setSessionUser';
@@ -23,6 +25,14 @@ export const login = (credential, password) => async (dispatch) => {
     }),
   });
 
+  const data = await response.json();
+  dispatch(setSessionUser(data.user));
+  return response;
+};
+
+// Thunk action for restoring user session
+export const restoreUser = () => async (dispatch) => {
+  const response = await csrfFetch('/api/session');
   const data = await response.json();
   dispatch(setSessionUser(data.user));
   return response;
