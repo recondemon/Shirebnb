@@ -1,49 +1,23 @@
-import React, { useState } from 'react';
+// frontend/src/components/Header/Header.jsx
+
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Modal from 'react-modal';
-import { useDispatch, useSelector } from 'react-redux';
-import * as sessionActions from '../../store/session';
+import LoginFormPage from '../LoginFormPage';
+import SignupFormPage from '../SignupFormPage';
 import './header.css';
 
-Modal.setAppElement('#root');
-
 function Header() {
-  const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [credential, setCredential] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState([]);
-  
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setErrors([]);
-    try {
-      await dispatch(sessionActions.login({ credential, password }));
-      setIsModalOpen(false);
-    } catch (res) {
-      const data = await res.json();
-      if (data?.errors) setErrors(data.errors);
-    }
-  };
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleDemoLogin = async () => {
-    setErrors([]);
-    try {
-      await dispatch(sessionActions.login({ credential: 'demo', password: 'password' }));
-      setIsModalOpen(false);
-    } catch (res) {
-      const data = await res.json();
-      if (data?.errors) setErrors(data.errors);
-    }
-  };
+  const openLoginModal = () => setShowLoginModal(true);
+  const closeLoginModal = () => setShowLoginModal(false);
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setCredential('');
-    setPassword('');
-    setErrors([]);
-  };
+  const openSignupModal = () => setShowSignupModal(true);
+  const closeSignupModal = () => setShowSignupModal(false);
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
     <header className="header">
@@ -51,56 +25,18 @@ function Header() {
         <Link to="/" className="logo">
           <img src="/path/to/your/logo.png" alt="App Logo" />
         </Link>
-        <div className="auth-buttons">
-          {sessionUser ? (
-            <div>Welcome, {sessionUser.username}</div>
-          ) : (
-            <>
-              <button onClick={() => setIsModalOpen(true)} className="auth-button">Log in</button>
-              <Link to="/signup" className="auth-button">Sign Up</Link>
-            </>
-          )}
+        <div className="hamburger-menu" onClick={toggleMenu}>
+          &#9776;
         </div>
+        {menuOpen && (
+          <div className="dropdown-menu">
+            <button className="auth-button" onClick={openLoginModal}>Log In</button>
+            <button className="auth-button" onClick={openSignupModal}>Sign Up</button>
+          </div>
+        )}
       </div>
-
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Login Modal"
-        className="modal"
-        overlayClassName="overlay"
-      >
-        <h2>Log In</h2>
-        <form onSubmit={handleLogin}>
-          <label>
-            Username or Email
-            <input
-              type="text"
-              value={credential}
-              onChange={(e) => setCredential(e.target.value)}
-              required
-            />
-          </label>
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </label>
-          {errors.map((error, idx) => (
-            <p key={idx} className="error">{error}</p>
-          ))}
-          <button type="submit" disabled={credential.length < 4 || password.length < 6}>
-            Log In
-          </button>
-          <button type="button" onClick={handleDemoLogin}>
-            Log in as Demo User
-          </button>
-        </form>
-      </Modal>
+      {showLoginModal && <LoginFormPage onClose={closeLoginModal} />}
+      {showSignupModal && <SignupFormPage onClose={closeSignupModal} />}
     </header>
   );
 }

@@ -1,11 +1,12 @@
 // frontend/src/components/SignupFormPage/SignupFormPage.jsx
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
+import './signupForm.css';
 
-function SignupFormPage() {
+function SignupFormPage({ onClose }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState('');
@@ -15,7 +16,11 @@ function SignupFormPage() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
 
-  if (sessionUser) return <Navigate to="/" replace={true} />;
+  useEffect(() => {
+    if (sessionUser) {
+      onClose();
+    }
+  }, [sessionUser, onClose]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,59 +34,64 @@ function SignupFormPage() {
   };
 
   return (
-    <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Username
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          First Name
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Last Name
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        {errors.username && <p>{errors.username}</p>}
-        <button type="submit">Sign Up</button>
-      </form>
-    </>
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <button className="close-button" onClick={onClose}>
+          &times;
+        </button>
+        <h1>Sign Up</h1>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Email
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Username
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            First Name
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Last Name
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          {errors.email && <p className="error-message">{errors.email}</p>}
+          {errors.username && <p className="error-message">{errors.username}</p>}
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
+    </div>
   );
 }
 
