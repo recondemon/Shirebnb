@@ -31,7 +31,7 @@ function LoginFormPage({ onClose }) {
   };
 
   const handleDemoLogin = () => {
-    dispatch(sessionActions.login({ credential: 'demo@user.io', password: 'password' }));
+    dispatch(sessionActions.login({ credential: 'demo@user.io', password: 'demopassword' }));
   };
 
   return (

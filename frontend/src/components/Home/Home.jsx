@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { fetchSpots } from '../../store/spots';
 import './home.css';
 
@@ -7,7 +8,6 @@ function Home() {
   const dispatch = useDispatch();
   const spots = useSelector((state) => state.spots.allSpots);
   const [sortedSpots, setSortedSpots] = useState({});
-  const [expandedDescriptions, setExpandedDescriptions] = useState({});
 
   useEffect(() => {
     dispatch(fetchSpots());
@@ -28,13 +28,6 @@ function Home() {
     }
   }, [spots]);
 
-  const toggleDescription = (spotId) => {
-    setExpandedDescriptions((prev) => ({
-      ...prev,
-      [spotId]: !prev[spotId]
-    }));
-  };
-
   return (
     <div className="home-container">
       <h1>Middle Earth Stays</h1>
@@ -43,20 +36,14 @@ function Home() {
           <h2>{region}</h2>
           <div className="spots-container">
             {sortedSpots[region].map((spot) => (
-              <div key={spot.id} className="spot">
-                <img src={spot.previewImage} alt={spot.name} />
-                <h3>{spot.name}</h3>
-                <p className="description">
-                  {expandedDescriptions[spot.id] ? spot.description : spot.description.slice(0, 100)} 
-                  {spot.description.length > 100 && (
-                    <button onClick={() => toggleDescription(spot.id)}>
-                      {expandedDescriptions[spot.id] ? 'Less' : 'More'}
-                    </button>
-                  )}
-                </p>
-                <p>Price: ${spot.price} per night</p>
-                <p>Rating: {spot.avgRating}</p>
-              </div>
+              <Link to={`/spots/${spot.id}`} key={spot.id} className="spot-link">
+                <div className="spot">
+                  <img src={spot.previewImage} alt={spot.name} />
+                  <h3>{spot.name}</h3>
+                  <p>{spot.city}, {spot.state}</p>
+                  <p>${spot.price} per night</p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

@@ -1,0 +1,83 @@
+.spot-details-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #e0e0e0;
+    font-family: 'Garamond', serif;
+    background-color: #1b1b1b;
+  }
+  
+  .images-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .large-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .small-images {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .small-images img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .info-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .host-info {
+    max-width: 60%;
+  }
+  
+  .callout-box {
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .callout-box p {
+    margin: 10px 0;
+    font-size: 1.2rem;
+  }
+  
+  .callout-box button {
+    background-color: #f5c518;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: #1b1b1b;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .callout-box button:hover {
+    background-color: #ffd700;
+  }
+  
+  .reviews-section {
+    margin-top: 20px;
+  }
+  
+  .review {
+    border-top: 1px solid #444;
+    padding-top: 10px;
+    margin-top: 10px;
+  }
+  
+  .review p {
+    margin: 5px 0;
+  }
+  
