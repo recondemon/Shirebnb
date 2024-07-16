@@ -1,3 +1,5 @@
+
+
 import Cookies from 'js-cookie';
 
 export async function csrfFetch(url, options = {}) {
@@ -7,7 +9,7 @@ export async function csrfFetch(url, options = {}) {
   if (options.method.toUpperCase() !== 'GET') {
     options.headers['Content-Type'] =
       options.headers['Content-Type'] || 'application/json';
-    options.headers['X-CSRF-Token'] = Cookies.get('XSRF-TOKEN'); // Use Cookies.get to fetch the CSRF token
+    options.headers['X-CSRF-Token'] = Cookies.get('XSRF-TOKEN');
   }
 
   const res = await fetch(url, options);
@@ -18,5 +20,5 @@ export async function csrfFetch(url, options = {}) {
 }
 
 export function restoreCSRF() {
-  return csrfFetch('/api/csrf/restore'); // Adjust the endpoint as necessary for your application
+  return csrfFetch('/api/csrf/restore');
 }

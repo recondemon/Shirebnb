@@ -1,25 +1,21 @@
-
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
 import LoginFormPage from './components/LoginFormPage';
 import SignupFormPage from './components/SignupFormPage';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <h1>Welcome!</h1>,
-  },
-  {
-    path: '/login',
-    element: <LoginFormPage />,
-  },
-  {
-    path: '/signup',
-    element: <SignupFormPage />,
-  },
-]);
+import Header from './components/Header';
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginFormPage />} />
+        <Route path="/signup" element={<SignupFormPage />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;

@@ -6,6 +6,7 @@ import './index.css';
 import configureStore from './store';
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session';
+import { BrowserRouter } from 'react-router-dom';
 
 const store = configureStore();
 if (import.meta.env.MODE !== 'production') {
@@ -23,7 +24,9 @@ console.log(window.sessionActions); // Should output the session actions
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );
