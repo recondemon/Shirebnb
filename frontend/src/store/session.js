@@ -1,4 +1,3 @@
-// frontend/src/store/session.js
 
 import { csrfFetch } from './csrf';
 
@@ -38,6 +37,25 @@ export const restoreUser = () => async (dispatch) => {
   return response;
 };
 
+// Thunk action for signing up
+export const signup = (user) => async (dispatch) => {
+  const { email, username, firstName, lastName, password } = user;
+  const response = await csrfFetch('/api/users', {
+    method: 'POST',
+    body: JSON.stringify({
+      email,
+      username,
+      firstName,
+      lastName,
+      password,
+    }),
+  });
+
+  const data = await response.json();
+  dispatch(setSessionUser(data.user));
+  return response;
+};
+
 // Initial state
 const initialState = { user: null };
 
@@ -54,4 +72,4 @@ const sessionReducer = (state = initialState, action) => {
 };
 
 export default sessionReducer;
-export { setSessionUser, removeSessionUser };
+export { setSessionUser, removeSessionUser, login, restoreUser, signup };
