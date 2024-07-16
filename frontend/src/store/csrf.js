@@ -18,3 +18,7 @@ const csrfFetch = async (url, options = {}) => {
 
     
 }
+
+export function restoreCSRF() {
+    return csrfFetch('/api/csrf/restore');
+  }
