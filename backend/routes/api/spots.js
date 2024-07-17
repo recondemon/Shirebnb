@@ -298,7 +298,7 @@ router.get("/", async (req, res) => {
         previewImage: spot.SpotImages.length > 0 ? spot.SpotImages[0].url : "No preview image available"
       };
     }));
-
+    console.log(spots);
     res.status(200).json({
       "Spots": spots,
       "page": page,
@@ -306,7 +306,7 @@ router.get("/", async (req, res) => {
       "returnedSpots": returnedSpots,
       "totalSpots": totalSpots
     });
-
+    
   } catch (err) {
     console.error(err);
     res.status(500).json({ "message": "Server error" });

@@ -1,17 +1,15 @@
-// Store Update: spots.js
-
 import { csrfFetch } from './csrf';
 
 const SET_SPOTS = 'spots/setSpots';
-const SET_SPOT_DETAILS = 'spots/setSpotDetails';
+const SET_SINGLE_SPOT = 'spots/setSingleSpot';
 
 const setSpots = (spots) => ({
   type: SET_SPOTS,
   spots,
 });
 
-const setSpotDetails = (spot) => ({
-  type: SET_SPOT_DETAILS,
+const setSingleSpot = (spot) => ({
+  type: SET_SINGLE_SPOT,
   spot,
 });
 
@@ -20,26 +18,24 @@ export const fetchSpots = () => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(setSpots(data.Spots));
-    return data;
   } else {
     console.log("something went wrong");
   }
 };
 
-export const fetchSpotDetails = (spotId) => async (dispatch) => {
+export const fetchSpotById = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`);
   if (response.ok) {
-    const data = await response.json();
-    dispatch(setSpotDetails(data));
-    return data;
+    const spot = await response.json();
+    dispatch(setSingleSpot(spot));
   } else {
-    console.error('Failed to fetch spot details');
+    console.log("something went wrong");
   }
 };
 
 const initialState = {
   allSpots: [],
-  currentSpot: null,
+  singleSpot: {},
 };
 
 const spotsReducer = (state = initialState, action) => {
@@ -49,10 +45,10 @@ const spotsReducer = (state = initialState, action) => {
         ...state,
         allSpots: action.spots,
       };
-    case SET_SPOT_DETAILS:
+    case SET_SINGLE_SPOT:
       return {
         ...state,
-        currentSpot: action.spot,
+        singleSpot: action.spot,
       };
     default:
       return state;
