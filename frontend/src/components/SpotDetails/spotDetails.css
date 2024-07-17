@@ -1,3 +1,5 @@
+/* frontend/src/components/SpotDetails/spotDetails.css */
+
 .spot-details-container {
   padding: 20px;
   max-width: 1200px; /* Adjust as necessary */
@@ -149,4 +151,19 @@
 
 .review strong {
   color: #f5c518;
+}
+
+.post-review-button {
+  background-color: #4caf50;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.post-review-button:hover {
+  background-color: #45a049;
 }

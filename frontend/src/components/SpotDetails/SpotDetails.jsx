@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+// frontend/src/components/SpotDetails/SpotDetails.jsx
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchSpotById } from '../../store/spots';
 import { fetchReviewsBySpotId } from '../../store/reviews';
+import ReviewModal from '../ReviewModal/ReviewModal';
 import './spotDetails.css';
 
 function SpotDetails() {
@@ -10,7 +12,9 @@ function SpotDetails() {
   const dispatch = useDispatch();
   const spot = useSelector((state) => state.spots.singleSpot);
   const reviews = useSelector((state) => state.reviews.spotReviews);
+  const sessionUser = useSelector((state) => state.session.user);
   const [loaded, setLoaded] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchSpotById(spotId));
@@ -20,6 +24,9 @@ function SpotDetails() {
   if (!loaded) return null;
 
   const averageRating = reviews.length > 0 ? (reviews.reduce((acc, review) => acc + review.stars, 0) / reviews.length).toFixed(2) : "New";
+
+  const userHasReviewed = reviews.some((review) => review.userId === sessionUser?.id);
+  const isOwner = spot.ownerId === sessionUser?.id;
 
   return (
     <div className="spot-details-container">
@@ -58,6 +65,10 @@ function SpotDetails() {
           <span>⭐ {averageRating}</span> 
           {reviews.length > 0 && <span>&middot; {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'}</span>}
         </h2>
+        {sessionUser && !isOwner && !userHasReviewed && (
+          <button className="post-review-button" onClick={() => setShowReviewModal(true)}>Post Your Review</button>
+        )}
+        {showReviewModal && <ReviewModal spotId={spotId} onClose={() => setShowReviewModal(false)} />}
         {reviews.length === 0 ? (
           <p>Be the first to post a review!</p>
         ) : (
