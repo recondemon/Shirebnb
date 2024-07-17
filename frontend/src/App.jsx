@@ -5,6 +5,7 @@ import LoginFormPage from './components/LoginFormPage';
 import SignupFormPage from './components/SignupFormPage';
 import SpotDetails from './components/SpotDetails';
 import Header from './components/Header';
+import CreateSpotPage from './components/CreateSpot';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginFormPage />} />
         <Route path="/signup" element={<SignupFormPage />} />
+        <Route path="/spots/new" element={<CreateSpotPage />} />
         <Route path="/spots/:spotId" element={<SpotDetails />} />
       </Routes>
     </>
