@@ -146,131 +146,131 @@ module.exports = {
       // Eriador - Rivendell Retreat
       {
         spotId: 6,
-        url: "/Eriador/RivendellRetreat/RivendellRetreat1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/RivendellRetreat/RivendellRetreat1.png",
         preview: true
       },
       {
         spotId: 6,
-        url: "/Eriador/RivendellRetreat/RivendellRetreat2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/RivendellRetreat/RivendellRetreat2.png",
         preview: false
       },
       {
         spotId: 6,
-        url: "/Eriador/RivendellRetreat/RivendellRetreat3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/RivendellRetreat/RivendellRetreat3.png",
         preview: false
       },
       {
         spotId: 6,
-        url: "/Eriador/RivendellRetreat/RivendellRetreat4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/RivendellRetreat/RivendellRetreat4.png",
         preview: false
       },
       {
         spotId: 6,
-        url: "/Eriador/RivendellRetreat/RivendellRetreat5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/RivendellRetreat/RivendellRetreat5.png",
         preview: false
       },
       // Eriador - Glorfindel's Haven
       {
         spotId: 7,
-        url: "/Eriador/GlorfindelsHaven/GlorfindelsHaven1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GlorfindelsHaven/GlorfindelsHaven1.png",
         preview: true
       },
       {
         spotId: 7,
-        url: "/Eriador/GlorfindelsHaven/GlorfindelsHaven2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GlorfindelsHaven/GlorfindelsHave2.png",
         preview: false
       },
       {
         spotId: 7,
-        url: "/Eriador/GlorfindelsHaven/GlorfindelsHaven3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GlorfindelsHaven/GlorfindelsHaven3.png",
         preview: false
       },
       {
         spotId: 7,
-        url: "/Eriador/GlorfindelsHaven/GlorfindelsHaven4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GlorfindelsHaven/GlorfindelsHave4.png",
         preview: false
       },
       {
         spotId: 7,
-        url: "/Eriador/GlorfindelsHaven/GlorfindelsHaven5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GlorfindelsHaven/GlorfindelsHaven5.png",
         preview: false
       },
       // Eriador - Elrohir's Lodge
       {
         spotId: 8,
-        url: "/Eriador/ElrohirsLodge/ElrohirsLodge1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElrohirsLodge/ElrohirsLodge1.png",
         preview: true
       },
       {
         spotId: 8,
-        url: "/Eriador/ElrohirsLodge/ElrohirsLodge2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElrohirsLodge/ElrohirsLodge2.png",
         preview: false
       },
       {
         spotId: 8,
-        url: "/Eriador/ElrohirsLodge/ElrohirsLodge3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElrohirsLodge/ElrohirsLodge3.png",
         preview: false
       },
       {
         spotId: 8,
-        url: "/Eriador/ElrohirsLodge/ElrohirsLodge4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElrohirsLodge/ElrohirsLodge4.png",
         preview: false
       },
       {
         spotId: 8,
-        url: "/Eriador/ElrohirsLodge/ElrohirsLodge5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElrohirsLodge/ElrohirsLodge5.png",
         preview: false
       },
       // Eriador - Elladan's Retreat
       {
         spotId: 9,
-        url: "/Eriador/ElladansRetreat/ElladansRetreat1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElladansRetreat/ElladansRetreat1.png",
         preview: true
       },
       {
         spotId: 9,
-        url: "/Eriador/ElladansRetreat/ElladansRetreat2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElladansRetreat/ElladansRetreat2.png",
         preview: false
       },
       {
         spotId: 9,
-        url: "/Eriador/ElladansRetreat/ElladansRetreat3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElladansRetreat/ElladansRetreat3.png",
         preview: false
       },
       {
         spotId: 9,
-        url: "/Eriador/ElladansRetreat/ElladansRetreat4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElladansRetreat/ElladansRetreat4.png",
         preview: false
       },
       {
         spotId: 9,
-        url: "/Eriador/ElladansRetreat/ElladansRetreat5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElladansRetreat/ElladansRetreat5.png",
         preview: false
       },
       // Eriador - Elrond's Sanctuary
       {
         spotId: 10,
-        url: "/Eriador/ElrondsSanctuary/ElrondsSanctuary1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElrondsSanctuary/ElrondsSanctuary1.png",
         preview: true
       },
       {
         spotId: 10,
-        url: "/Eriador/ElrondsSanctuary/ElrondsSanctuary2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElrondsSanctuary/ElrondsSanctuary2.png",
         preview: false
       },
       {
         spotId: 10,
-        url: "/Eriador/ElrondsSanctuary/ElrondsSanctuary3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElrondsSanctuary/ElrondsSanctuary3.png",
         preview: false
       },
       {
         spotId: 10,
-        url: "/Eriador/ElrondsSanctuary/ElrondsSanctuary4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElrondsSanctuary/ElrondsSanctuary4.png",
         preview: false
       },
       {
         spotId: 10,
-        url: "/Eriador/ElrondsSanctuary/ElrondsSanctuary5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ElrondsSanctuary/ElrondsSanctuary5.png",
         preview: false
       },
       // Wilderland - Erebor's Majesty
