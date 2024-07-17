@@ -1,5 +1,3 @@
-// frontend/src/components/Header/Header.jsx
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoginFormPage from '../LoginFormPage';
@@ -23,10 +21,14 @@ function Header() {
     <header className="header">
       <div className="header-content">
         <Link to="/" className="logo">
-          <img src="/path/to/your/logo.png" alt="App Logo" />
+          <img src="../../../public/logo.png" alt="App Logo" />
+          <h1>Shirebnb</h1>
         </Link>
-        <div className="hamburger-menu" onClick={toggleMenu}>
-          &#9776;
+        <div className="right-section">
+          <div className="hamburger-menu" onClick={toggleMenu}>
+            &#9776;
+          </div>
+          <img src="/path/to/profile-image.jpg" alt="Profile" className="profile-image" />
         </div>
         {menuOpen && (
           <div className="dropdown-menu">

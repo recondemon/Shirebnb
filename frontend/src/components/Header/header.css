@@ -8,6 +8,7 @@
   align-items: center;
   color: #fff;
   position: relative;
+  border-bottom: #fff 2px solid;
 }
 
 .header-content {
@@ -17,13 +18,42 @@
   width: 100%;
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none; 
+}
+
 .logo img {
   height: 40px;
+  width: 40px;
+  border-radius: 50%; 
+  object-fit: cover; 
+}
+
+.logo h1 {
+  font-size: 2rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .hamburger-menu {
   font-size: 30px;
   cursor: pointer;
+}
+
+.profile-image {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .dropdown-menu {
