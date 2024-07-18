@@ -1,6 +1,6 @@
 {
   "name": "authenticate-me",
- "private": true,
+  "private": true,
   "version": "0.1.0",
   "type": "module",
   "scripts": {
@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.16.4",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.408.0",
     "react": "^18.2.0",
