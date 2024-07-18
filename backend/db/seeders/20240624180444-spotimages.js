@@ -458,79 +458,79 @@ module.exports = {
       // Rhovanion - Haldir's Treehouse
       {
         spotId: 18,
-        url: "/Rhovanion/HaldirsTreehouse/HaldirsTreehouse1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/HaldirsTreehouse/HaldirsTreehouse1.webp",
         preview: true
       },
       {
         spotId: 18,
-        url: "/Rhovanion/HaldirsTreehouse/HaldirsTreehouse2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/HaldirsTreehouse/HaldirsTreehouse2.webp",
         preview: false
       },
       {
         spotId: 18,
-        url: "/Rhovanion/HaldirsTreehouse/HaldirsTreehouse3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/HaldirsTreehouse/HaldirsTreehouse13.webp",
         preview: false
       },
       {
         spotId: 18,
-        url: "/Rhovanion/HaldirsTreehouse/HaldirsTreehouse4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/HaldirsTreehouse/HaldirsTreehouse4.webp",
         preview: false
       },
       {
         spotId: 18,
-        url: "/Rhovanion/HaldirsTreehouse/HaldirsTreehouse5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/HaldirsTreehouse/HaldirsTreehouse5.webp",
         preview: false
       },
       // Rhovanion - Thranduil's Palace
       {
         spotId: 19,
-        url: "/Rhovanion/ThranduilsPalace/ThranduilsPalace1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ThranduilsPalace/ThranduilsPalace1.webp",
         preview: true
       },
       {
         spotId: 19,
-        url: "/Rhovanion/ThranduilsPalace/ThranduilsPalace2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ThranduilsPalace/ThranduilsPalace2.webp",
         preview: false
       },
       {
         spotId: 19,
-        url: "/Rhovanion/ThranduilsPalace/ThranduilsPalace3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ThranduilsPalace/ThranduilsPalace3.webp",
         preview: false
       },
       {
         spotId: 19,
-        url: "/Rhovanion/ThranduilsPalace/ThranduilsPalace4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ThranduilsPalace/ThranduilsPalace4.webp",
         preview: false
       },
       {
         spotId: 19,
-        url: "/Rhovanion/ThranduilsPalace/ThranduilsPalace5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ThranduilsPalace/ThranduilsPalace5.webp",
         preview: false
       },
       // Rhovanion - Galadriel's House
       {
         spotId: 20,
-        url: "/Rhovanion/GaladrielsHouse/GaladrielsHouse1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GaladrielsHouse/GaladrielsHouse1.webp",
         preview: true
       },
       {
         spotId: 20,
-        url: "/Rhovanion/GaladrielsHouse/GaladrielsHouse2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GaladrielsHouse/GaladrielsHouse2.webp",
         preview: false
       },
       {
         spotId: 20,
-        url: "/Rhovanion/GaladrielsHouse/GaladrielsHouse3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GaladrielsHouse/GaladrielsHouse3.webp",
         preview: false
       },
       {
         spotId: 20,
-        url: "/Rhovanion/GaladrielsHouse/GaladrielsHouse4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GaladrielsHouse/GaladrielsHouse4.webp",
         preview: false
       },
       {
         spotId: 20,
-        url: "/Rhovanion/GaladrielsHouse/GaladrielsHouse5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GaladrielsHouse/GaladrielsHouse5.webp",
         preview: false
       },
       // Gondor - Citadel Suite
