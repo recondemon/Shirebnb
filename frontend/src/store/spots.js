@@ -1,5 +1,3 @@
-// frontend/src/store/spots.js
-
 import { csrfFetch } from './csrf';
 
 const SET_SPOTS = 'spots/setSpots';
@@ -9,6 +7,7 @@ const CREATE_SPOT = 'spots/createSpot';
 const UPDATE_SPOT = 'spots/updateSpot';
 const DELETE_SPOT = 'spots/deleteSpot';
 
+// Action Creators
 const setSpots = (spots) => ({
   type: SET_SPOTS,
   spots,
@@ -39,6 +38,7 @@ const removeSpot = (spotId) => ({
   spotId,
 });
 
+// Thunks
 export const fetchSpots = () => async (dispatch) => {
   const response = await csrfFetch('/api/spots');
   if (response.ok) {
@@ -60,10 +60,10 @@ export const fetchSpotById = (spotId) => async (dispatch) => {
 };
 
 export const fetchUserSpots = () => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/current`);
+  const response = await csrfFetch('/api/spots/current');
   if (response.ok) {
     const data = await response.json();
-    dispatch(setUserSpots(data));
+    dispatch(setUserSpots(data.Spots));
   } else {
     console.log("something went wrong");
   }
@@ -72,6 +72,9 @@ export const fetchUserSpots = () => async (dispatch) => {
 export const createSpot = (spotData) => async (dispatch) => {
   const response = await csrfFetch('/api/spots', {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(spotData),
   });
 
@@ -88,6 +91,9 @@ export const createSpot = (spotData) => async (dispatch) => {
 export const updateSpot = (spotId, spotData) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(spotData),
   });
 
@@ -115,12 +121,14 @@ export const deleteSpot = (spotId) => async (dispatch) => {
   }
 };
 
+// Initial State
 const initialState = {
   allSpots: [],
   singleSpot: {},
   userSpots: [],
 };
 
+// Reducer
 const spotsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_SPOTS:
@@ -141,7 +149,8 @@ const spotsReducer = (state = initialState, action) => {
     case CREATE_SPOT:
       return {
         ...state,
-        allSpots: [...state.allSpots, action.spot],
+        allSpots: [action.spot, ...state.allSpots],
+        userSpots: [action.spot, ...state.userSpots],
       };
     case UPDATE_SPOT:
       return {
@@ -150,6 +159,9 @@ const spotsReducer = (state = initialState, action) => {
           spot.id === action.spot.id ? action.spot : spot
         ),
         singleSpot: action.spot,
+        userSpots: state.userSpots.map((spot) =>
+          spot.id === action.spot.id ? action.spot : spot
+        ),
       };
     case DELETE_SPOT:
       return {

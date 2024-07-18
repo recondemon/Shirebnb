@@ -76,7 +76,7 @@ function Home() {
               <Link to={`/spots/${spot.id}`} key={spot.id} className="spot-link">
                 <div className="spot">
                   <CustomTooltip title={spot.name} arrow placement="top">
-                    <img src={spot.previewImage} alt={spot.name} className="spot-image" />
+                    <img src={spot.previewImage} alt={spot.name} />
                   </CustomTooltip>
                   <div className="spot-info">
                     <div className="spot-details">

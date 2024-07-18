@@ -1,29 +1,39 @@
-// frontend/src/components/ManageSpots/ManageSpots.jsx
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { fetchUserSpots, deleteSpot } from '../../store/spots';
 import './manageSpots.css';
+import { Link } from 'react-router-dom';
 
 function ManageSpots() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userSpots = useSelector((state) => state.spots.userSpots);
   const sessionUser = useSelector((state) => state.session.user);
+  const [imageError, setImageError] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [spotToDelete, setSpotToDelete] = useState(null);
 
   useEffect(() => {
     if (sessionUser) {
-      dispatch(fetchUserSpots(sessionUser.id));
+      dispatch(fetchUserSpots());
     }
   }, [dispatch, sessionUser]);
 
   const handleDelete = (spotId) => {
-    if (window.confirm("Are you sure you want to remove this spot?")) {
-      dispatch(deleteSpot(spotId)).then(() => {
-        alert("Spot successfully deleted");
-      });
-    }
+    setShowModal(true);
+    setSpotToDelete(spotId);
+  };
+
+  const confirmDelete = () => {
+    dispatch(deleteSpot(spotToDelete)).then(() => {
+      setShowModal(false);
+      setSpotToDelete(null);
+    });
+  };
+
+  const handleImageError = (id) => {
+    setImageError((prev) => ({ ...prev, [id]: true }));
   };
 
   if (!userSpots.length) {
@@ -38,14 +48,30 @@ function ManageSpots() {
   return (
     <div className="manage-spots-container">
       <h1>Manage Spots</h1>
-      <div className="spots-list">
+      <div className="spots-grid">
         {userSpots.map((spot) => (
-          <div className="spot-tile" key={spot.id} onClick={() => navigate(`/spots/${spot.id}`)}>
-            <img src={spot.previewImage} alt={spot.name} />
+          <div
+            className="spot"
+            key={spot.id}
+            onClick={() => navigate(`/spots/${spot.id}`)}
+          >
+            <div className="image-container">
+              {imageError[spot.id] ? (
+                <div className="image-placeholder">Image failed to load</div>
+              ) : (
+                <img
+                  src={spot.previewImage}
+                  alt={spot.name}
+                  onError={() => handleImageError(spot.id)}
+                />
+              )}
+            </div>
             <div className="spot-info">
-              <p>{spot.city}, {spot.state}</p>
-              <p>${spot.price} / night</p>
-              <p>⭐ {spot.avgRating}</p>
+              <div className="spot-details">
+                <p>{spot.city}, {spot.state}</p>
+                <p className="star-rating">⭐ {spot.avgRating}</p>
+              </div>
+              <p className="spot-price">${spot.price} per night</p>
             </div>
             <div className="spot-actions">
               <button onClick={(e) => { e.stopPropagation(); navigate(`/spots/${spot.id}/edit`); }}>Update</button>
@@ -54,6 +80,18 @@ function ManageSpots() {
           </div>
         ))}
       </div>
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>Are you sure you want to remove this spot?</p>
+            <div className="modal-actions">
+              <button onClick={() => setShowModal(false)}>Keep</button>
+              <button onClick={confirmDelete}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
