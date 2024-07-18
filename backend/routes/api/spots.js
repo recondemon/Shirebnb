@@ -326,10 +326,6 @@ router.post("/", requireAuth, async (req, res) => {
     if (!city) errors.city = "City is required";
     if (!state) errors.state = "State is required";
     if (!country) errors.country = "Country is required";
-    if(lat < -90 || lat > 90) errors.lat = "Latitude must be between -90 and 90";
-    if(lng < -180 || lng > 180) errors.lng = "Longitude must be between -180 and 180";
-    if (!lat || isNaN(lat)) errors.lat = "Latitude is invalid";
-    if (!lng || isNaN(lng)) errors.lng = "Longitude is invalid";
     if (!name || name.length > 50) errors.name = "Name must be less than 50 characters";
     if (!description) errors.description = "Description is required";
     if (!price || isNaN(price) || price < 0) errors.price = "Price per day is required and must be a number equal to or greater than 0";
@@ -343,7 +339,7 @@ router.post("/", requireAuth, async (req, res) => {
     }
 
     let createSpot = await Spot.create({
-      ownerId: currentUser.id, address, city, state, country, lat, lng, name, description, price
+      ownerId: currentUser.id, address, city, state, country, name, description, price, lat, lng
     });
 
     res.status(201);
@@ -559,10 +555,6 @@ router.put("/:spotId", requireAuth, async (req, res) => {
       if (!city) errors.city = "City is required";
       if (!state) errors.state = "State is required";
       if (!country) errors.country = "Country is required";
-      if(lat < -90 || lat > 90) errors.lat = "Latitude must be between -90 and 90";
-      if(lng < -180 || lng > 180) errors.lng = "Longitude must be between -180 and 180";
-      if (!lat || isNaN(lat)) errors.lat = "Latitude is invalid";
-      if (!lng || isNaN(lng)) errors.lng = "Longitude is invalid";
       if (!name || name.length > 50) errors.name = "Name must be less than 50 characters";
       if (!description) errors.description = "Description is required";
       if (!price || isNaN(price) || price < 0) errors.price = "Price per day is required and must be a number equal to or greater than 0";
@@ -579,8 +571,6 @@ router.put("/:spotId", requireAuth, async (req, res) => {
       editSpot.address = address;
       editSpot.city = city;
       editSpot.country = country;
-      editSpot.lat = lat;
-      editSpot.lng = lng;
       editSpot.name = name;
       editSpot.description = description;
       editSpot.price = price;

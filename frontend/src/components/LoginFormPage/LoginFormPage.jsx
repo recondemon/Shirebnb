@@ -39,24 +39,20 @@ function LoginFormPage({ onClose }) {
         </button>
         <h1>Log In</h1>
         <form onSubmit={handleSubmit}>
-          <label>
-            Username or Email
-            <input
-              type="text"
-              value={credential}
-              onChange={(e) => setCredential(e.target.value)}
-              required
-            />
-          </label>
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </label>
+          <input
+            type="text"
+            placeholder="Username or Email"
+            value={credential}
+            onChange={(e) => setCredential(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
           {errors.credential && <p className="error-message">{errors.credential}</p>}
           <button type="submit" disabled={credential.length < 4 || password.length < 6}>
             Log In

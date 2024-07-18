@@ -1,3 +1,5 @@
+/* header.css */
+
 .header {
   background-color: #1b1b1b;
   padding: 10px 20px;
@@ -36,12 +38,12 @@
 .right-section {
   display: flex;
   align-items: center;
-  gap: 20px; /* Adjust spacing as necessary */
+  gap: 20px;
 }
 
 .create-spot-link {
   color: #4caf50;
-  text-decoration: none; /* Remove underline */
+  text-decoration: none;
   cursor: pointer;
 }
 
@@ -51,7 +53,7 @@
   border-radius: 25px;
   display: flex;
   align-items: center;
-  gap: 10px; /* Space between icons */
+  gap: 10px;
   cursor: pointer;
 }
 
@@ -67,8 +69,8 @@
 
 .dropdown-menu {
   position: absolute;
-  top: 50px;
-  right: 20px;
+  top: 50px; /* Adjust to appear below the hamburger menu */
+  right: 0; /* Align with the right edge of the icon group */
   background-color: #333;
   border-radius: 5px;
   padding: 10px;
@@ -77,6 +79,7 @@
   align-items: flex-start;
   color: #fff;
   min-width: 200px;
+  z-index: 1000; /* Ensure it appears above other content */
 }
 
 .dropdown-menu p {
@@ -92,7 +95,7 @@
 
 .dropdown-link {
   color: #fff;
-  text-decoration: none; /* Remove underline */
+  text-decoration: none;
   cursor: pointer;
   margin: 5px 0;
 }
@@ -127,7 +130,7 @@
   z-index: 1000;
 }
 
-.modal-content {
+/* .modal-content {
   background: #fff;
   padding: 20px;
   border-radius: 8px;
@@ -144,7 +147,7 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-}
+} */
 
 .error-message {
   color: red;

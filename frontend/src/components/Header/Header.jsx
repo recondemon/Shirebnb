@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User } from 'lucide-react';
 import { logout } from '../../store/session';
 import LoginFormPage from '../LoginFormPage/LoginFormPage';
@@ -9,6 +9,7 @@ import './header.css';
 
 function Header() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
@@ -20,12 +21,38 @@ function Header() {
   const openSignupModal = () => setShowSignupModal(true);
   const closeSignupModal = () => setShowSignupModal(false);
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleMenu = (e) => {
+    e.stopPropagation();
+    setMenuOpen(!menuOpen);
+  };
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logout()).then(() => {
+      navigate('/');
+    });
     setMenuOpen(false);
   };
+
+  const handleClickOutside = (e) => {
+    if (menuOpen) {
+      setMenuOpen(false);
+    }
+  };
+
+  const handleMenuClick = (e) => {
+    e.stopPropagation();
+  };
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.addEventListener('click', handleClickOutside);
+    } else {
+      document.removeEventListener('click', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [menuOpen]);
 
   return (
     <header className="header">
@@ -38,10 +65,10 @@ function Header() {
           <Link to="/spots/new" className="create-spot-link">Create a New Spot</Link>
           <div className="icon-group" onClick={toggleMenu}>
             <div className="hamburger-menu">&#9776;</div>
-            {sessionUser && <User className="user-icon" />}
+            <User className="user-icon" />
           </div>
           {menuOpen && (
-            <div className="dropdown-menu">
+            <div className="dropdown-menu" onClick={handleMenuClick}>
               {sessionUser ? (
                 <>
                   <p>Hello, {sessionUser.firstName}</p>

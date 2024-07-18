@@ -134,67 +134,69 @@ module.exports = {
   price: 270.00,
 },
 
-      // Wilderland
-      {
-        ownerId: 5, // Gimli
-        address: "Desolation of Smaug",
-        city: "Lonely Mountain",
-        state: "Wilderland",
-        country: "Middle Earth",
-        lat: -36.9656,
-        lng: 175.2338,
-        name: "Erebor's Majesty",
-        description: "Stay within the ancient halls of Erebor, the Lonely Mountain. Discover the grandeur of the dwarven kingdom, with its massive chambers and intricate carvings. Perfect for adventurers and history enthusiasts.",
-        price: 300.00,
-      },
-      {
-        ownerId: 17, // Thorin Oakenshield
-        address: "Thorin's Hall",
-        city: "Lonely Mountain",
-        state: "Wilderland",
-        country: "Middle Earth",
-        lat: -36.9657,
-        lng: 175.2339,
-        name: "Thorin's Hall",
-        description: "A majestic hall in Erebor. Experience the grandeur of the dwarven kingdom.",
-        price: 320.00,
-      },
-      {
-        ownerId: 18, // Dwalin
-        address: "Dwalin's House",
-        city: "Lonely Mountain",
-        state: "Wilderland",
-        country: "Middle Earth",
-        lat: -36.9658,
-        lng: 175.2340,
-        name: "Dwalin's Fortress",
-        description: "A fortress in Erebor. Perfect for those seeking adventure and history.",
-        price: 310.00,
-      },
-      {
-        ownerId: 19, // Balin
-        address: "Balin's House",
-        city: "Lonely Mountain",
-        state: "Wilderland",
-        country: "Middle Earth",
-        lat: -36.9659,
-        lng: 175.2341,
-        name: "Balin's Mansion",
-        description: "A grand mansion in Erebor. Experience the luxury and history of the dwarven kingdom.",
-        price: 330.00,
-      },
-      {
-        ownerId: 20, // Fili
-        address: "Fili's House",
-        city: "Lonely Mountain",
-        state: "Wilderland",
-        country: "Middle Earth",
-        lat: -36.9660,
-        lng: 175.2342,
-        name: "Fili's Palace",
-        description: "A palace in Erebor. Perfect for those seeking luxury and adventure.",
-        price: 340.00,
-      },
+
+//Wilderland
+{
+  "ownerId": 5, // Gimli
+  "address": "Desolation of Smaug",
+  "city": "Lonely Mountain",
+  "state": "Wilderland",
+  "country": "Middle Earth",
+  "lat": -36.9656,
+  "lng": 175.2338,
+  "name": "Erebor's Majesty",
+  "description": "Erebor's Majesty invites you to stay within the legendary halls of Erebor, the Lonely Mountain. This majestic retreat is steeped in the rich history and grandeur of the dwarven kingdom. Marvel at the massive chambers adorned with intricate stone carvings that tell the tales of ancient heroes and epic battles. Each room is designed to immerse you in the majestic ambiance of dwarven architecture, with grand pillars and high ceilings that echo the glory of Erebor's past. Perfect for adventurers and history enthusiasts, this stay promises an unforgettable experience of Middle Earth's storied past.",
+  "price": 300.00
+},
+{
+  "ownerId": 17, // Thorin Oakenshield
+  "address": "Thorin's Hall",
+  "city": "Lonely Mountain",
+  "state": "Wilderland",
+  "country": "Middle Earth",
+  "lat": -36.9657,
+  "lng": 175.2339,
+  "name": "Thorin's Hall",
+  "description": "Thorin's Hall offers a majestic escape into the heart of Erebor. This hall, named after the legendary Thorin Oakenshield, is a testament to the splendor of the dwarven kingdom. Experience the grandeur of the ancient halls with their intricately carved stone walls and towering pillars. The ambiance is both regal and welcoming, reflecting the noble spirit of its namesake. Whether you're a history buff or simply seeking a luxurious getaway, Thorin's Hall provides a unique blend of comfort and historical magnificence.",
+  "price": 320.00
+},
+{
+  "ownerId": 18, // Dwalin
+  "address": "Dwalin's House",
+  "city": "Lonely Mountain",
+  "state": "Wilderland",
+  "country": "Middle Earth",
+  "lat": -36.9658,
+  "lng": 175.2340,
+  "name": "Dwalin's Fortress",
+  "description": "Dwalin's Fortress is perfect for those seeking both adventure and history. Situated within the ancient halls of Erebor, this fortress embodies the strength and resilience of the dwarven spirit. Explore the robustly designed chambers with their sturdy stonework and powerful carvings. Each corner of Dwalin's Fortress tells a story of bravery and perseverance, making it an ideal retreat for adventurers looking to immerse themselves in the rich heritage of Middle Earth. Enjoy modern comforts amidst an atmosphere that echoes the valor of its past.",
+  "price": 310.00
+},
+{
+  "ownerId": 19, // Balin
+  "address": "Balin's House",
+  "city": "Lonely Mountain",
+  "state": "Wilderland",
+  "country": "Middle Earth",
+  "lat": -36.9659,
+  "lng": 175.2341,
+  "name": "Balin's Mansion",
+  "description": "Balin's Mansion offers a grand and luxurious experience within the ancient kingdom of Erebor. This majestic mansion is a blend of opulence and historical significance, with elegantly carved stone walls and spacious chambers. The mansion's sophisticated design reflects the noble lineage of its owner, Balin. Guests can enjoy the comfort of modern amenities while being surrounded by the historical beauty of dwarven craftsmanship. Balin's Mansion is the perfect destination for those looking to experience the luxury and history of the dwarven kingdom in Middle Earth.",
+  "price": 330.00
+},
+{
+  "ownerId": 20, // Fili
+  "address": "Fili's House",
+  "city": "Lonely Mountain",
+  "state": "Wilderland",
+  "country": "Middle Earth",
+  "lat": -36.9660,
+  "lng": 175.2342,
+  "name": "Fili's Palace",
+  "description": "Fili's Palace is a lavish retreat nestled within the storied halls of Erebor. This palace combines the allure of luxury with the thrill of adventure, making it an ideal spot for those seeking both. The elegantly designed stone walls and grandiose chambers are adorned with intricate carvings that reflect the rich history of the dwarven kingdom. With modern comforts seamlessly integrated into the majestic surroundings, Fili's Palace offers an unparalleled experience of grandeur and adventure in Middle Earth.",
+  "price": 340.00
+},
+
       // Rhovanion
       {
         ownerId: 8, // Galadriel

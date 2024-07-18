@@ -276,131 +276,131 @@ module.exports = {
       // Wilderland - Erebor's Majesty
       {
         spotId: 11,
-        url: "/Wilderland/EreborsMajesty/EreborsMajesty1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/EroborsMajesty/EroborsMajesty1.webp",
         preview: true
       },
       {
         spotId: 11,
-        url: "/Wilderland/EreborsMajesty/EreborsMajesty2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/EroborsMajesty/EroborsMajesty2.webp",
         preview: false
       },
       {
         spotId: 11,
-        url: "/Wilderland/EreborsMajesty/EreborsMajesty3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/EroborsMajesty/EroborsMajesty3.webp",
         preview: false
       },
       {
         spotId: 11,
-        url: "/Wilderland/EreborsMajesty/EreborsMajesty4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/EroborsMajesty/EroborsMajesty4.webp",
         preview: false
       },
       {
         spotId: 11,
-        url: "/Wilderland/EreborsMajesty/EreborsMajesty5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/EroborsMajesty/EroborsMajesty5.webp",
         preview: false
       },
       // Wilderland - Thorin's Hall
       {
         spotId: 12,
-        url: "/Wilderland/ThorinsHall/ThorinsHall1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ThorinsHall/ThorinsHall1.webp",
         preview: true
       },
       {
         spotId: 12,
-        url: "/Wilderland/ThorinsHall/ThorinsHall2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ThorinsHall/ThorinsHall2.webp",
         preview: false
       },
       {
         spotId: 12,
-        url: "/Wilderland/ThorinsHall/ThorinsHall3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ThorinsHall/ThorinsHall3.webp",
         preview: false
       },
       {
         spotId: 12,
-        url: "/Wilderland/ThorinsHall/ThorinsHall4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ThorinsHall/ThorinsHall4.webp",
         preview: false
       },
       {
         spotId: 12,
-        url: "/Wilderland/ThorinsHall/ThorinsHall5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/ThorinsHall/ThorinsHall5.webp",
         preview: false
       },
       // Wilderland - Dwalin's Fortress
       {
         spotId: 13,
-        url: "/Wilderland/DwalinsFortress/DwalinsFortress1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/DwalinsFortress/DwalinsFortress1.webp",
         preview: true
       },
       {
         spotId: 13,
-        url: "/Wilderland/DwalinsFortress/DwalinsFortress2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/DwalinsFortress/DwalinsFortress2.webp",
         preview: false
       },
       {
         spotId: 13,
-        url: "/Wilderland/DwalinsFortress/DwalinsFortress3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/DwalinsFortress/DwalinsFortress2.webp",
         preview: false
       },
       {
         spotId: 13,
-        url: "/Wilderland/DwalinsFortress/DwalinsFortress4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/DwalinsFortress/DwalinsFortress4.webp",
         preview: false
       },
       {
         spotId: 13,
-        url: "/Wilderland/DwalinsFortress/DwalinsFortress5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/DwalinsFortress/DwalinsFortress5.webp",
         preview: false
       },
       // Wilderland - Balin's Mansion
       {
         spotId: 14,
-        url: "/Wilderland/BalinsMansion/BalinsMansion1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/BalinsManor/BalinsManor1.webp",
         preview: true
       },
       {
         spotId: 14,
-        url: "/Wilderland/BalinsMansion/BalinsMansion2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/BalinsManor/BalinsManor2.webp",
         preview: false
       },
       {
         spotId: 14,
-        url: "/Wilderland/BalinsMansion/BalinsMansion3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/BalinsManor/BalinsManor3.webp",
         preview: false
       },
       {
         spotId: 14,
-        url: "/Wilderland/BalinsMansion/BalinsMansion4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/BalinsManor/BalinsManor4.webp",
         preview: false
       },
       {
         spotId: 14,
-        url: "/Wilderland/BalinsMansion/BalinsMansion5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/BalinsManor/BalinsManor5.webp",
         preview: false
       },
       // Wilderland - Fili's Palace
       {
         spotId: 15,
-        url: "/Wilderland/FilisPalace/FilisPalace1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/FilisPalace/FilisPalace1.webp",
         preview: true
       },
       {
         spotId: 15,
-        url: "/Wilderland/FilisPalace/FilisPalace2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/FilisPalace/FilisPalace2.webp",
         preview: false
       },
       {
         spotId: 15,
-        url: "/Wilderland/FilisPalace/FilisPalace3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/FilisPalace/FilisPalace3.webp",
         preview: false
       },
       {
         spotId: 15,
-        url: "/Wilderland/FilisPalace/FilisPalace4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/FilisPalace/FilisPalace4.webp",
         preview: false
       },
       {
         spotId: 15,
-        url: "/Wilderland/FilisPalace/FilisPalace5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/FilisPalace/FilisPalace5.webp",
         preview: false
       },
       // Rhovanion - Golden Wood Haven
