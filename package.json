@@ -1,13 +1,15 @@
 {
-  "name": "authenticate-me",
-  "private": true,
-  "version": "0.1.0",
-  "type": "module",
+  "name": "airbnb-clone",
+  "version": "1.0.0",
+  "description": "## Database Schema Design",
+  "main": "index.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build --watch",
-    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "install": "npm --prefix backend install backend",
+    "dev:backend": "npm install --prefix backend start",
+    "sequelize": "npm run --prefix backend sequelize",
+    "sequelize-cli": "npm run --prefix backend sequelize-cli",
+    "start": "npm start --prefix backend",
+    "build": "npm run --prefix backend build"
   },
   "keywords": [],
   "author": "",
