@@ -68,3 +68,22 @@
 .spot-price {
   margin-top: 5px;
 }
+
+.more-link-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.more-link {
+  color: #f5c518;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.more-link:hover {
+  color: #ffd700;
+}

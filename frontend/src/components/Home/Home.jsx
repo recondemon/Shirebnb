@@ -36,7 +36,10 @@ function Home() {
 
   useEffect(() => {
     if (spots.length > 0) {
-      const regions = spots.reduce((acc, spot) => {
+      // Sort spots by newest to oldest
+      const sortedSpots = [...spots].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      const regions = sortedSpots.reduce((acc, spot) => {
         const region = spot.state;
         if (!acc[region]) {
           acc[region] = [];
@@ -45,7 +48,20 @@ function Home() {
         return acc;
       }, {});
 
-      setSortedSpots(regions);
+      // Sort regions by the date of the most recent spot
+      const sortedRegions = Object.keys(regions).sort((a, b) => {
+        const latestSpotA = new Date(regions[a][0].createdAt);
+        const latestSpotB = new Date(regions[b][0].createdAt);
+        return latestSpotB - latestSpotA;
+      });
+
+      // Create a sorted object based on the sorted region keys
+      const sortedRegionsObj = sortedRegions.reduce((acc, region) => {
+        acc[region] = regions[region];
+        return acc;
+      }, {});
+
+      setSortedSpots(sortedRegionsObj);
     }
   }, [spots]);
 
@@ -56,7 +72,7 @@ function Home() {
         <div key={region} className="region">
           <h2>{region}</h2>
           <div className="spots-grid">
-            {sortedSpots[region].map((spot) => (
+            {sortedSpots[region].slice(0, 4).map((spot) => (
               <Link to={`/spots/${spot.id}`} key={spot.id} className="spot-link">
                 <div className="spot">
                   <CustomTooltip title={spot.name} arrow placement="top">
@@ -73,6 +89,11 @@ function Home() {
               </Link>
             ))}
           </div>
+          {sortedSpots[region].length > 4 && (
+            <div className="more-link-container">
+              <Link to={`/spots/state/${region}`} className="more-link">More</Link>
+            </div>
+          )}
         </div>
       ))}
     </div>
