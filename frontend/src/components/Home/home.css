@@ -13,7 +13,7 @@
 .region {
   margin-bottom: 40px;
   width: 100%;
-  max-width: 1200px; /* Max width for the centered content */
+  max-width: 1400px; /* Increased max width for more spots per row */
 }
 
 .region h2 {
@@ -26,32 +26,28 @@
   text-align: center;
 }
 
-.spots-container-wrapper {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.spots-container {
-  display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  width: 100%;
-  padding: 10px 0;
+.spots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
 
 .spot {
   background-color: transparent;
   border: none;
-  width: 300px; /* Make pictures wider */
-  flex: 0 0 auto;
+  width: 100%; /* Full width within the grid */
   text-align: left;
+  position: relative;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
 }
 
 .spot img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   border-radius: 8px;
 }
 
@@ -71,25 +67,4 @@
 
 .spot-price {
   margin-top: 5px;
-}
-
-.scroll-button {
-  background-color: #1b1b1b;
-  border: none;
-  color: #f5c518;
-  font-size: 2rem;
-  cursor: pointer;
-  padding: 10px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-}
-
-.scroll-button.left {
-  left: 0;
-}
-
-.scroll-button.right {
-  right: 0;
 }

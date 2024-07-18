@@ -197,128 +197,132 @@ module.exports = {
   "price": 340.00
 },
 
-      // Rhovanion
-      {
-        ownerId: 8, // Galadriel
-        address: "Lorien Woods",
-        city: "Lothlorien",
-        state: "Rhovanion",
-        country: "Middle Earth",
-        lat: -37.1234,
-        lng: 175.4567,
-        name: "Golden Wood Haven",
-        description: "Find peace among the golden leaves of Lothlorien. This enchanting elven treehouse offers a unique blend of nature and comfort, set high in the trees with stunning views of the surrounding forest.",
-        price: 200.00,
-      },
-      {
-        ownerId: 21, // Celeborn
-        address: "Celeborn's Treehouse",
-        city: "Lothlorien",
-        state: "Rhovanion",
-        country: "Middle Earth",
-        lat: -37.1235,
-        lng: 175.4568,
-        name: "Celeborn's Treehouse",
-        description: "A beautiful treehouse in Lothlorien. Enjoy the tranquility and beauty of the golden woods.",
-        price: 210.00,
-      },
-      {
-        ownerId: 22, // Haldir
-        address: "Haldir's Treehouse",
-        city: "Lothlorien",
-        state: "Rhovanion",
-        country: "Middle Earth",
-        lat: -37.1236,
-        lng: 175.4569,
-        name: "Haldir's Treehouse",
-        description: "A serene treehouse in Lothlorien. Perfect for those seeking peace and nature.",
-        price: 220.00,
-      },
-      {
-        ownerId: 23, // Thranduil
-        address: "Thranduil's Palace",
-        city: "Mirkwood",
-        state: "Rhovanion",
-        country: "Middle Earth",
-        lat: -37.1237,
-        lng: 175.4570,
-        name: "Thranduil's Palace",
-        description: "A grand palace in Mirkwood. Experience the luxury and beauty of the elven kingdom.",
-        price: 230.00,
-      },
-      {
-        ownerId: 8, // Galadriel
-        address: "Galadriel's House",
-        city: "Lothlorien",
-        state: "Rhovanion",
-        country: "Middle Earth",
-        lat: -37.1238,
-        lng: 175.4571,
-        name: "Galadriel's House",
-        description: "A beautiful house in Lothlorien. Enjoy the elven hospitality and the stunning views.",
-        price: 240.00,
-      },
-      // Gondor
-      {
-        ownerId: 7, // Boromir
-        address: "Minas Tirith",
-        city: "Gondor",
-        state: "Gondor",
-        country: "Middle Earth",
-        lat: -36.8485,
-        lng: 174.7633,
-        name: "Citadel Suite",
-        description: "Stay in the majestic city of Minas Tirith, the White City of Gondor. This suite offers luxury accommodations with views of the rolling plains and the distant mountains, ideal for those seeking a regal experience.",
-        price: 350.00,
-      },
-      {
-        ownerId: 1, // Frodo Baggins
-        address: "Frodo's House",
-        city: "Minas Tirith",
-        state: "Gondor",
-        country: "Middle Earth",
-        lat: -36.8486,
-        lng: 174.7634,
-        name: "Frodo's House",
-        description: "A lovely house in Minas Tirith. Enjoy the luxury and comfort of the White City.",
-        price: 360.00,
-      },
-      {
-        ownerId: 2, // Samwise Gamgee
-        address: "Sam's House",
-        city: "Minas Tirith",
-        state: "Gondor",
-        country: "Middle Earth",
-        lat: -36.8487,
-        lng: 174.7635,
-        name: "Sam's House",
-        description: "A cozy house in Minas Tirith. Perfect for those seeking peace and tranquility.",
-        price: 370.00,
-      },
-      {
-        ownerId: 3, // Aragorn
-        address: "Aragorn's Palace",
-        city: "Minas Tirith",
-        state: "Gondor",
-        country: "Middle Earth",
-        lat: -36.8488,
-        lng: 174.7636,
-        name: "Aragorn's Palace",
-        description: "A grand palace in Minas Tirith. Experience the luxury and majesty of the White City.",
-        price: 380.00,
-      },
-      {
-        ownerId: 7, // Boromir
-        address: "Boromir's House",
-        city: "Minas Tirith",
-        state: "Gondor",
-        country: "Middle Earth",
-        lat: -36.8489,
-        lng: 174.7637,
-        name: "Boromir's House",
-        description: "A beautiful house in Minas Tirith. Enjoy the luxury and comfort of the White City.",
-        price: 390.00,
-      },
+// Rhovanion
+
+{
+  "ownerId": 8, // Galadriel
+  "address": "Lorien Woods",
+  "city": "Lothlorien",
+  "state": "Rhovanion",
+  "country": "Middle Earth",
+  "lat": -37.1234,
+  "lng": 175.4567,
+  "name": "Golden Wood Haven",
+  "description": "Golden Wood Haven offers a serene escape amidst the enchanting golden leaves of Lothlorien. This exquisite elven treehouse, designed by the Lady Galadriel herself, combines the natural beauty of the forest with unparalleled comfort. Set high among the ancient trees, the treehouse provides stunning panoramic views of the surrounding forest, creating an atmosphere of tranquility and peace. Each room is carefully crafted to blend seamlessly with nature, featuring elegant elven designs and luxurious furnishings. Whether you seek solitude, inspiration, or simply a unique retreat, Golden Wood Haven promises an unforgettable experience.",
+  "price": 200.00
+},
+{
+  "ownerId": 21, // Celeborn
+  "address": "Celeborn's Treehouse",
+  "city": "Lothlorien",
+  "state": "Rhovanion",
+  "country": "Middle Earth",
+  "lat": -37.1235,
+  "lng": 175.4568,
+  "name": "Celeborn's Treehouse",
+  "description": "Nestled in the heart of the golden woods of Lothlorien, Celeborn's Treehouse offers a sanctuary of beauty and peace. This enchanting treehouse, crafted with the wisdom and grace of the Elven Lord Celeborn, is a testament to the harmony between nature and elven architecture. The treehouse features expansive living spaces adorned with delicate carvings and natural wood elements, providing a cozy yet grand ambiance. Large windows and balconies offer breathtaking views of the forest, making it an ideal spot for reflection and relaxation. Immerse yourself in the tranquility of Lothlorien and experience the timeless elegance of elven hospitality.",
+  "price": 210.00
+},
+{
+  "ownerId": 22, // Haldir
+  "address": "Haldir's Treehouse",
+  "city": "Lothlorien",
+  "state": "Rhovanion",
+  "country": "Middle Earth",
+  "lat": -37.1236,
+  "lng": 175.4569,
+  "name": "Haldir's Treehouse",
+  "description": "Perched among the ancient trees of Lothlorien, Haldir's Treehouse offers a serene retreat for those seeking peace and connection with nature. This beautifully crafted treehouse, designed by the elven warrior Haldir, blends rustic charm with elegant elven craftsmanship. The interiors are spacious and filled with natural light, featuring comfortable furnishings and exquisite decor. The large deck provides a perfect vantage point to admire the golden canopy and listen to the soothing sounds of the forest. Whether you are a nature lover, an adventurer, or simply in need of a quiet escape, Haldir's Treehouse offers a unique and tranquil haven.",
+  "price": 220.00
+},
+{
+  "ownerId": 23, // Thranduil
+  "address": "Thranduil's Palace",
+  "city": "Mirkwood",
+  "state": "Rhovanion",
+  "country": "Middle Earth",
+  "lat": -37.1237,
+  "lng": 175.4570,
+  "name": "Thranduil's Palace",
+  "description": "Experience the grandeur of the elven kingdom at Thranduil's Palace, a magnificent residence nestled in the depths of Mirkwood. This grand palace, home to the Elvenking Thranduil, is a marvel of elven architecture, combining luxurious living with the natural beauty of the forest. The palace features expansive halls, intricately carved stone walls, and elegant furnishings that reflect the opulence and majesty of the elven realm. Guests can explore the lush gardens, relax in the grand living spaces, and enjoy the unparalleled hospitality of the elven kingdom. Thranduil's Palace offers a royal experience, perfect for those seeking luxury and beauty.",
+  "price": 230.00
+},
+{
+  "ownerId": 8, // Galadriel
+  "address": "Galadriel's House",
+  "city": "Lothlorien",
+  "state": "Rhovanion",
+  "country": "Middle Earth",
+  "lat": -37.1238,
+  "lng": 175.4571,
+  "name": "Galadriel's House",
+  "description": "Galadriel's House is a stunning elven residence located in the heart of Lothlorien, offering guests a unique opportunity to experience the hospitality and beauty of the elven realm. Designed by the Lady Galadriel, this house features elegant elven architecture, with flowing lines, delicate carvings, and large windows that frame the breathtaking views of the golden forest. The interiors are luxurious and inviting, with comfortable furnishings and exquisite decor that reflect the grace and wisdom of Galadriel. Guests can enjoy peaceful walks in the surrounding woods, relax in the beautifully landscaped gardens, and savor the tranquility of this enchanting retreat.",
+  "price": 240.00
+},
+
+// Gondor
+
+{
+  "ownerId": 7, // Boromir
+  "address": "Minas Tirith",
+  "city": "Gondor",
+  "state": "Gondor",
+  "country": "Middle Earth",
+  "lat": -36.8485,
+  "lng": 174.7633,
+  "name": "Citadel Suite",
+  "description": "Stay in the majestic city of Minas Tirith, the White City of Gondor, at the luxurious Citadel Suite. This opulent suite offers unparalleled views of the rolling plains of Gondor and the distant mountains, providing a regal experience for guests. The suite is elegantly furnished with rich fabrics, fine woodwork, and intricate details that reflect the grandeur of the city. Guests can enjoy the spacious living areas, relax in the luxurious bedroom, and take in the stunning vistas from the private balcony. Whether you are visiting for leisure or seeking a royal experience, the Citadel Suite promises a memorable stay in one of Middle Earth's most iconic cities.",
+  "price": 350.00
+},
+{
+  "ownerId": 1, // Frodo Baggins
+  "address": "Frodo's House",
+  "city": "Minas Tirith",
+  "state": "Gondor",
+  "country": "Middle Earth",
+  "lat": -36.8486,
+  "lng": 174.7634,
+  "name": "Frodo's House",
+  "description": "Frodo's House in Minas Tirith offers a charming and comfortable retreat in the heart of the White City. This lovely house, inspired by the home of the famous hobbit Frodo Baggins, combines cozy hobbit-style living with the elegance of Minas Tirith. The house features a welcoming living room, a well-equipped kitchen, and a comfortable bedroom, all adorned with hobbit-inspired decor and luxurious furnishings. Guests can relax in the private garden, enjoy the scenic views of the city, and experience the warmth and hospitality of Minas Tirith. Frodo's House is the perfect choice for those seeking a blend of comfort, charm, and adventure.",
+  "price": 360.00
+},
+{
+  "ownerId": 2, // Samwise Gamgee
+  "address": "Sam's House",
+  "city": "Minas Tirith",
+  "state": "Gondor",
+  "country": "Middle Earth",
+  "lat": -36.8487,
+  "lng": 174.7635,
+  "name": "Sam's House",
+  "description": "Sam's House in Minas Tirith offers a cozy and tranquil retreat, perfect for those seeking peace and relaxation. Inspired by the home of Samwise Gamgee, this house combines the simplicity and warmth of hobbit living with the beauty of the White City. The interiors are inviting and comfortable, featuring a charming living room, a quaint kitchen, and a restful bedroom. Guests can enjoy the peaceful atmosphere of the private garden, take leisurely strolls through the city, and experience the serene ambiance of Minas Tirith. Sam's House is ideal for those looking to unwind and enjoy the tranquility of this historic city.",
+  "price": 370.00
+},
+{
+  "ownerId": 3, // Aragorn
+  "address": "Aragorn's Palace",
+  "city": "Minas Tirith",
+  "state": "Gondor",
+  "country": "Middle Earth",
+  "lat": -36.8488,
+  "lng": 174.7636,
+  "name": "Aragorn's Palace",
+  "description": "Experience the luxury and majesty of Minas Tirith at Aragorn's Palace, a grand residence in the heart of the White City. This magnificent palace, home to King Aragorn, is a marvel of architecture and design, reflecting the strength and nobility of Gondor. The palace features expansive halls, intricately carved stone walls, and elegant furnishings, providing a royal experience for guests. Guests can explore the lush gardens, relax in the opulent living spaces, and enjoy the stunning views of the city and the surrounding landscape. Aragorn's Palace offers a regal retreat, perfect for those seeking luxury and history in one of Middle Earth's most iconic cities.",
+  "price": 380.00
+},
+{
+  "ownerId": 7, // Boromir
+  "address": "Boromir's House",
+  "city": "Minas Tirith",
+  "state": "Gondor",
+  "country": "Middle Earth",
+  "lat": -36.8489,
+  "lng": 174.7637,
+  "name": "Boromir's House",
+  "description": "Boromir's House in Minas Tirith offers a luxurious and comfortable retreat in the heart of Gondor's White City. This beautiful house, inspired by the home of the valiant warrior Boromir, combines elegance and comfort with the grandeur of Minas Tirith. The house features spacious living areas, a well-appointed kitchen, and a comfortable bedroom, all adorned with rich fabrics and fine furnishings. Guests can relax in the private courtyard, enjoy the scenic views of the city, and experience the warmth and hospitality of Minas Tirith. Boromir's House is the perfect choice for those seeking luxury and comfort in one of Middle Earth's most historic cities.",
+  "price": 390.00
+}
+
     ], options);
   },
 

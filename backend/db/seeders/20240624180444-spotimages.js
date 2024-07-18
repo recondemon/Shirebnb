@@ -406,53 +406,53 @@ module.exports = {
       // Rhovanion - Golden Wood Haven
       {
         spotId: 16,
-        url: "/Rhovanion/GoldenWoodHaven/GoldenWoodHaven1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GoldenWoodHaven/GoldenWoodHaven1.webp",
         preview: true
       },
       {
         spotId: 16,
-        url: "/Rhovanion/GoldenWoodHaven/GoldenWoodHaven2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GoldenWoodHaven/GoldenWoodHaven2.webp",
         preview: false
       },
       {
         spotId: 16,
-        url: "/Rhovanion/GoldenWoodHaven/GoldenWoodHaven3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GoldenWoodHaven/GoldenWoodHaven3.webp",
         preview: false
       },
       {
         spotId: 16,
-        url: "/Rhovanion/GoldenWoodHaven/GoldenWoodHaven4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GoldenWoodHaven/GoldenWoodHaven4.webp",
         preview: false
       },
       {
         spotId: 16,
-        url: "/Rhovanion/GoldenWoodHaven/GoldenWoodHaven5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/GoldenWoodHaven/GoldenWoodHaven5.webp",
         preview: false
       },
       // Rhovanion - Celeborn's Treehouse
       {
         spotId: 17,
-        url: "/Rhovanion/CelebornsTreehouse/CelebornsTreehouse1.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/CelebornsTreehouse/CelebornsTreeHouse1.webp",
         preview: true
       },
       {
         spotId: 17,
-        url: "/Rhovanion/CelebornsTreehouse/CelebornsTreehouse2.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/CelebornsTreehouse/CelebornsTreeHouse2.webp",
         preview: false
       },
       {
         spotId: 17,
-        url: "/Rhovanion/CelebornsTreehouse/CelebornsTreehouse3.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/CelebornsTreehouse/CelebornsTreeHouse3.webp",
         preview: false
       },
       {
         spotId: 17,
-        url: "/Rhovanion/CelebornsTreehouse/CelebornsTreehouse4.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/CelebornsTreehouse/CelebornsTreeHouse4.webp",
         preview: false
       },
       {
         spotId: 17,
-        url: "/Rhovanion/CelebornsTreehouse/CelebornsTreehouse5.png",
+        url: "https://shirebnb.s3.us-east-2.amazonaws.com/CelebornsTreehouse/CelebornsTreeHouse5.webp",
         preview: false
       },
       // Rhovanion - Haldir's Treehouse
