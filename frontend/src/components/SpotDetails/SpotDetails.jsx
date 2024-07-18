@@ -1,20 +1,22 @@
-// frontend/src/components/SpotDetails/SpotDetails.jsx
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { fetchSpotById } from '../../store/spots';
-import { fetchReviewsBySpotId } from '../../store/reviews';
+import { fetchReviewsBySpotId, deleteReview, createReview } from '../../store/reviews';
 import ReviewModal from '../ReviewModal/ReviewModal';
 import './spotDetails.css';
 
 function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const spot = useSelector((state) => state.spots.singleSpot);
   const reviews = useSelector((state) => state.reviews.spotReviews);
   const sessionUser = useSelector((state) => state.session.user);
   const [loaded, setLoaded] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [reviewToDelete, setReviewToDelete] = useState(null);
 
   useEffect(() => {
     dispatch(fetchSpotById(spotId));
@@ -27,6 +29,26 @@ function SpotDetails() {
 
   const userHasReviewed = reviews.some((review) => review.userId === sessionUser?.id);
   const isOwner = spot.ownerId === sessionUser?.id;
+
+  const handleDeleteClick = (reviewId) => {
+    setShowDeleteModal(true);
+    setReviewToDelete(reviewId);
+  };
+
+  const handleDeleteConfirm = () => {
+    dispatch(deleteReview(reviewToDelete)).then(() => {
+      setShowDeleteModal(false);
+      setReviewToDelete(null);
+      dispatch(fetchReviewsBySpotId(spotId));
+    });
+  };
+
+  const handleReviewSubmit = async (review) => {
+    await dispatch(createReview({ spotId, review, stars: review.stars }));
+    setShowReviewModal(false);
+    dispatch(fetchReviewsBySpotId(spotId));
+    navigate(`/spots/${spotId}`);
+  };
 
   return (
     <div className="spot-details-container">
@@ -48,7 +70,7 @@ function SpotDetails() {
       </div>
       <div className="spot-details-info">
         <div className="spot-details-host">
-          <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
+          <h2>Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}</h2>
           <p>{spot.description}</p>
         </div>
         <div className="callout-box">
@@ -66,23 +88,39 @@ function SpotDetails() {
           {reviews.length > 0 && <span>&middot; {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'}</span>}
         </h2>
         {sessionUser && !isOwner && !userHasReviewed && (
-          <button className="post-review-button" onClick={() => setShowReviewModal(true)}>Post Your Review</button>
+          <button className="post-review-btn" onClick={() => setShowReviewModal(true)}>Post Your Review</button>
         )}
-        {showReviewModal && <ReviewModal spotId={spotId} onClose={() => setShowReviewModal(false)} />}
+        {showReviewModal && <ReviewModal spotId={spotId} onClose={() => setShowReviewModal(false)} onSubmit={handleReviewSubmit} />}
         {reviews.length === 0 ? (
           <p>Be the first to post a review!</p>
         ) : (
           reviews.map((review, idx) => (
             <div key={idx} className="review">
               <div className="review-header">
-                <p><strong>{review.User.firstName}</strong></p>
+                <p><strong>{review.User?.firstName}</strong></p>
                 <p>{new Date(review.createdAt).toLocaleString('default', { month: 'long', year: 'numeric' })}</p>
               </div>
               <p>{review.review}</p>
+              {review.userId === sessionUser?.id && (
+                <button className="delete-review-btn" onClick={() => handleDeleteClick(review.id)}>Delete</button>
+              )}
             </div>
           ))
         )}
       </div>
+
+      {showDeleteModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Confirm Delete</h2>
+            <p>Are you sure you want to delete this review?</p>
+            <div className="modal-actions">
+              <button onClick={() => setShowDeleteModal(false)}>No (Keep Review)</button>
+              <button onClick={handleDeleteConfirm}>Yes (Delete Review)</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
