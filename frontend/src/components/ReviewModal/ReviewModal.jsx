@@ -1,5 +1,5 @@
 // frontend/src/components/ReviewModal/ReviewModal.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createReview } from '../../store/reviews';
 import './reviewModal.css';

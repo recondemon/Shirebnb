@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { User } from 'lucide-react';
@@ -33,11 +33,11 @@ function Header() {
     setMenuOpen(false);
   };
 
-  const handleClickOutside = (e) => {
+  const handleClickOutside = useCallback(() => {
     if (menuOpen) {
       setMenuOpen(false);
     }
-  };
+  }, [menuOpen]);
 
   const handleMenuClick = (e) => {
     e.stopPropagation();
@@ -52,7 +52,7 @@ function Header() {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [menuOpen]);
+  }, [menuOpen, handleClickOutside]);
 
   return (
     <header className="header">

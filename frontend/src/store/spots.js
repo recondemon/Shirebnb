@@ -6,6 +6,7 @@ const SET_USER_SPOTS = 'spots/setUserSpots';
 const CREATE_SPOT = 'spots/createSpot';
 const UPDATE_SPOT = 'spots/updateSpot';
 const DELETE_SPOT = 'spots/deleteSpot';
+const ADD_IMAGE_TO_SPOT = 'spots/addImageToSpot';
 
 // Action Creators
 const setSpots = (spots) => ({
@@ -36,6 +37,12 @@ const editSpot = (spot) => ({
 const removeSpot = (spotId) => ({
   type: DELETE_SPOT,
   spotId,
+});
+
+const addImage = (spotId, image) => ({
+  type: ADD_IMAGE_TO_SPOT,
+  spotId,
+  image,
 });
 
 // Thunks
@@ -82,6 +89,25 @@ export const createSpot = (spotData) => async (dispatch) => {
     const spot = await response.json();
     dispatch(addSpot(spot));
     return spot;
+  } else {
+    const errorData = await response.json();
+    throw new Error(errorData.message);
+  }
+};
+
+export const addImageToSpot = (spotId, imageData) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(imageData),
+  });
+
+  if (response.ok) {
+    const image = await response.json();
+    dispatch(addImage(spotId, image));
+    return image;
   } else {
     const errorData = await response.json();
     throw new Error(errorData.message);
@@ -168,6 +194,17 @@ const spotsReducer = (state = initialState, action) => {
         ...state,
         allSpots: state.allSpots.filter((spot) => spot.id !== action.spotId),
         userSpots: state.userSpots.filter((spot) => spot.id !== action.spotId),
+      };
+    case ADD_IMAGE_TO_SPOT:
+      return {
+        ...state,
+        singleSpot: {
+          ...state.singleSpot,
+          SpotImages: [...state.singleSpot.SpotImages, action.image],
+        },
+        allSpots: state.allSpots.map((spot) =>
+          spot.id === action.spotId ? { ...spot, SpotImages: [...spot.SpotImages, action.image] } : spot
+        ),
       };
     default:
       return state;

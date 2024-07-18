@@ -1,6 +1,6 @@
 // frontend/src/components/UpdateSpot/UpdateSpotPage.jsx
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchSpotById, updateSpot } from '../../store/spots';
@@ -70,7 +70,7 @@ function UpdateSpotPage() {
       <form onSubmit={handleSubmit}>
         {/* Location Inputs */}
         <div>
-          <h2>Where's your place located?</h2>
+          <h2>Where&apos;s your place located?</h2>
           <p>Guests will only get your exact address once they booked a reservation.</p>
           <label>
             Country
@@ -132,7 +132,7 @@ function UpdateSpotPage() {
         {/* Title */}
         <div>
           <h2>Create a title for your spot</h2>
-          <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
+          <p>Catch guests&apos; attention with a spot title that highlights what makes your place special.</p>
           <input
             type="text"
             placeholder="Name of your spot"

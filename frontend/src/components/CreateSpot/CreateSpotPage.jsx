@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { createSpot } from '../../store/spots';
+import { createSpot, addImageToSpot } from '../../store/spots'; // Import addImageToSpot action
 import './createSpot.css';
 
 function CreateSpotPage() {
@@ -33,7 +33,6 @@ function CreateSpotPage() {
       description,
       price: parseFloat(price),
       previewImage,
-      images: images.filter((image) => image),
     };
 
     // Include lat and lng if they are provided
@@ -43,6 +42,13 @@ function CreateSpotPage() {
     try {
       const createdSpot = await dispatch(createSpot(newSpot));
       if (createdSpot) {
+        for (let image of images) {
+          if (image) {
+            await dispatch(addImageToSpot(createdSpot.id, { url: image, preview: false }));
+          }
+        }
+        // Add preview image to the spot
+        await dispatch(addImageToSpot(createdSpot.id, { url: previewImage, preview: true }));
         navigate(`/spots/${createdSpot.id}`); // Navigate to the new spot's details page
       }
     } catch (error) {
@@ -57,8 +63,8 @@ function CreateSpotPage() {
       <form onSubmit={handleSubmit}>
         {/* Location Inputs */}
         <div>
-          <h2>Where's your place located?</h2>
-          <p>Guests will only get your exact address once they booked a reservation.</p>
+          <h2>Where&apos;s your place located?</h2>
+          <p>Guests will only get your exact address once they&apos;ve booked a reservation.</p>
           <label>
             Country
             <input
@@ -140,7 +146,7 @@ function CreateSpotPage() {
         {/* Title */}
         <div>
           <h2>Create a title for your spot</h2>
-          <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
+          <p>Catch guests&apos; attention with a spot title that highlights what makes your place special.</p>
           <input
             type="text"
             placeholder="Name of your spot"
