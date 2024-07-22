@@ -592,34 +592,39 @@ router.put("/:spotId", requireAuth, async (req, res) => {
 // Delete a spot belonging to current user
 router.delete("/:spotId", requireAuth, async (req, res) => {
   try {
-    let currentUser = req.user;
-    let spotId = req.params.spotId;
+    const currentUser = req.user;
+    const spotId = req.params.spotId;
 
-    let existingSpot = await Spot.findByPk(spotId);
+    const existingSpot = await Spot.findByPk(spotId);
     if (!existingSpot) {
-      res.status(404);
-      return res.json({ "message": "Spot could not be found" });
-
+      return res.status(404).json({ "message": "Spot could not be found" });
     } else if (currentUser.id !== existingSpot.ownerId) {
-      res.status(403);
-      return res.json({ "message": "Forbidden" });
-
+      return res.status(403).json({ "message": "Forbidden" });
     } else {
-      existingSpot = await Spot.findOne({
+      // Delete related spot images
+      await SpotImage.destroy({
         where: {
-          id: spotId,
-          ownerId: currentUser.id
+          spotId: spotId
         }
       });
 
+      // Delete related reviews
+      await Review.destroy({
+        where: {
+          spotId: spotId
+        }
+      });
+
+      // Delete the spot
       await existingSpot.destroy();
-      res.status(200);
-      return res.json({ "message": "Spot successfully deleted" });
+      return res.status(200).json({ "message": "Spot successfully deleted" });
     }
   } catch (err) {
-    res.status(500);
-    return res.json({ "message": "Server error" });
+    console.error(err);
+    return res.status(500).json({ "message": "Server error", "error": err.message });
   }
 });
+
+module.exports = router;
 
 module.exports = router;

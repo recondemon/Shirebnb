@@ -25,11 +25,14 @@ function ManageSpots() {
     setSpotToDelete(spotId);
   };
 
-  const confirmDelete = () => {
-    dispatch(deleteSpot(spotToDelete)).then(() => {
+  const confirmDelete = async () => {
+    try {
+      await dispatch(deleteSpot(spotToDelete));
       setShowModal(false);
       setSpotToDelete(null);
-    });
+    } catch (error) {
+      console.error('Failed to delete spot:', error);
+    }
   };
 
   const handleImageError = (id) => {
