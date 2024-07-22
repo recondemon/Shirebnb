@@ -1,4 +1,3 @@
-// store/spots.js
 import { csrfFetch } from './csrf';
 
 const SET_SPOTS = 'spots/setSpots';
@@ -201,13 +200,19 @@ const spotsReducer = (state = initialState, action) => {
         ...state,
         singleSpot: {
           ...state.singleSpot,
-          SpotImages: state.singleSpot.SpotImages ? [...state.singleSpot.SpotImages, action.image] : [action.image],
+          SpotImages: state.singleSpot.SpotImages
+            ? [...state.singleSpot.SpotImages, action.image]
+            : [action.image],
         },
         allSpots: state.allSpots.map((spot) =>
-          spot.id === action.spotId ? {
-            ...spot,
-            SpotImages: spot.SpotImages ? [...spot.SpotImages, action.image] : [action.image]
-          } : spot
+          spot.id === action.spotId
+            ? {
+                ...spot,
+                SpotImages: spot.SpotImages
+                  ? [...spot.SpotImages, action.image]
+                  : [action.image],
+              }
+            : spot
         ),
       };
     default:

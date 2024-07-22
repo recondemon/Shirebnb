@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { createSpot, addImageToSpot } from '../../store/spots'; // Import addImageToSpot action
+import { createSpot, addImageToSpot } from '../../store/spots';
 import './createSpot.css';
 
 function CreateSpotPage() {
@@ -19,10 +19,26 @@ function CreateSpotPage() {
   const [previewImage, setPreviewImage] = useState('');
   const [images, setImages] = useState(['', '', '', '']);
   const [errors, setErrors] = useState({});
+  const [submitErrors, setSubmitErrors] = useState({});
+
+  const validateDescription = () => {
+    const errors = {};
+    if (description.length < 30) {
+      errors.description = 'Description must be at least 30 characters long';
+    }
+    return errors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
+    setSubmitErrors({});
+
+    const validationErrors = validateDescription();
+    if (Object.keys(validationErrors).length > 0) {
+      setSubmitErrors(validationErrors);
+      return;
+    }
 
     const newSpot = {
       address,
@@ -145,6 +161,9 @@ function CreateSpotPage() {
             onChange={(e) => setDescription(e.target.value)}
             required
           />
+          {submitErrors.description && (
+            <p className="error-message">{submitErrors.description}</p>
+          )}
         </div>
 
         {/* Title */}
