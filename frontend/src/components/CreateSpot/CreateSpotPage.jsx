@@ -52,8 +52,12 @@ function CreateSpotPage() {
         navigate(`/spots/${createdSpot.id}`); // Navigate to the new spot's details page
       }
     } catch (error) {
-      const errorData = await error.json();
-      setErrors(errorData.errors);
+      if (error.json) {
+        const errorData = await error.json();
+        setErrors(errorData.errors);
+      } else {
+        setErrors({ global: 'An unexpected error occurred' });
+      }
     }
   };
 
