@@ -84,3 +84,28 @@
 .more-link:hover {
   color: #ffd700;
 }
+
+.filter-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px; /* Adjust width as needed */
+}
+
+.filter-container select {
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #f5c518;
+  color: #1b1b1b;
+  border: 2px solid #2c2c2c;
+  border-radius: 4px;
+  width: 30%; /* Adjust width as needed */
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.filter-container select:disabled {
+  background-color: #3c3c3c;
+  color: #b5b5b5;
+}
