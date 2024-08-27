@@ -1,5 +1,3 @@
-
-
 import Cookies from 'js-cookie';
 
 export async function csrfFetch(url, options = {}) {
@@ -7,8 +5,11 @@ export async function csrfFetch(url, options = {}) {
   options.headers = options.headers || {};
 
   if (options.method.toUpperCase() !== 'GET') {
-    options.headers['Content-Type'] =
-      options.headers['Content-Type'] || 'application/json';
+    // Only set Content-Type if it's not FormData
+    if (!(options.body instanceof FormData)) {
+      options.headers['Content-Type'] =
+        options.headers['Content-Type'] || 'application/json';
+    }
     options.headers['X-CSRF-Token'] = Cookies.get('XSRF-TOKEN');
   }
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { createSpot, addImageToSpot } from '../../store/spots';
+import { createSpot, addImageToSpot, uploadTemporaryImage } from '../../store/spots';
 import './createSpot.css';
 
 function CreateSpotPage() {
@@ -17,10 +17,79 @@ function CreateSpotPage() {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [previewImage, setPreviewImage] = useState('');
-  const [images, setImages] = useState(['', '', '', '']);
+  const [images, setImages] = useState([{ url: '', file: null }]);
   const [errors, setErrors] = useState({});
   const [submitErrors, setSubmitErrors] = useState({});
+  const [imageErrors, setImageErrors] = useState({});
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
+  // Count selected images
+  const selectedUrlImagesCount = images.filter(image => !image.tempId && image.selected).length;
+  const selectedUploadedImagesCount = images.filter(image => image.tempId && image.selected).length;
+
+  // Function to handle image file upload
+  const handleUploadImage = async (file) => {
+    setUploading(true);
+
+    try {
+      const result = await dispatch(uploadTemporaryImage(file));
+      const newImage = { url: result.url, file: null, tempId: result.tempId, selected: false };
+
+      if (!previewImage) {
+        setPreviewImage(result.url); // Set as preview image if none exists
+      } else {
+        setImages(prevImages => [...prevImages, newImage]);
+      }
+
+      setUploadSuccess(true);
+    } catch (error) {
+      console.error('Error uploading image:', error.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  // Function to add an image URL input field
+  const handleAddImageUrl = (e) => {
+    e.preventDefault();
+    setImages([...images, { url: '', file: null, selected: false }]);
+  };
+
+  // Function to handle image selection
+  const handleImageSelect = (index, isSelected) => {
+    const newImages = [...images];
+    newImages[index].selected = isSelected;
+    setImages(newImages);
+  };
+
+  // Function to remove an image
+  const handleRemoveImage = () => {
+    const newImages = images.filter((image) => !image.selected);
+    setImages(newImages);
+
+    if (newImages.length === 0) {
+      setPreviewImage('');
+    }
+  };
+
+  // Function to set a preview image
+  const handleSetPreviewImage = (url) => {
+    const currentPreviewImage = previewImage;
+
+    // Move the current preview image to the images list if it exists
+    const updatedImages = currentPreviewImage
+      ? [{ url: currentPreviewImage, selected: false }, ...images.filter(image => image.url !== currentPreviewImage)]
+      : images;
+
+    // Set the selected image as the new preview image
+    setPreviewImage(url);
+
+    // Update the image list to exclude the new preview image
+    setImages(updatedImages.filter(image => image.url !== url));
+  };
+
+  // Function to validate the description field
   const validateDescription = () => {
     const errors = {};
     if (description.length < 30) {
@@ -29,14 +98,62 @@ function CreateSpotPage() {
     return errors;
   };
 
+  // Function to validate image URLs and files
+  const validateImages = () => {
+    const errors = {};
+    const validImageUrlRegex = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif))$/i;
+
+    let imageProvided = false;
+
+    images.forEach((image, index) => {
+      if (image.url) {
+        if (!validImageUrlRegex.test(image.url)) {
+          errors[index] = `Image URL ${index + 1} is not valid.`;
+        } else {
+          imageProvided = true;
+        }
+      } else if (image.file) {
+        imageProvided = true;
+      }
+    });
+
+    if (!imageProvided) {
+      errors.noImage = 'Please provide at least one image.';
+    }
+
+    if (!previewImage) {
+      errors.noPreview = 'Please select a preview image.';
+    }
+
+    return errors;
+  };
+
+  // Function to handle changes to image URLs or files
+  const handleImageChange = (index, value, isFile = false) => {
+    const newImages = [...images];
+    if (isFile) {
+      newImages[index].file = value;
+      newImages[index].url = URL.createObjectURL(value);
+    } else {
+      newImages[index].url = value;
+      newImages[index].file = null;
+    }
+    setImages(newImages);
+  };
+
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
     setSubmitErrors({});
+    setImageErrors({});
 
     const validationErrors = validateDescription();
-    if (Object.keys(validationErrors).length > 0) {
+    const imageValidationErrors = validateImages();
+
+    if (Object.keys(validationErrors).length > 0 || Object.keys(imageValidationErrors).length > 0) {
       setSubmitErrors(validationErrors);
+      setImageErrors(imageValidationErrors);
       return;
     }
 
@@ -51,7 +168,6 @@ function CreateSpotPage() {
       previewImage,
     };
 
-    // Include lat and lng if they are provided
     if (lat) newSpot.lat = parseFloat(lat);
     if (lng) newSpot.lng = parseFloat(lng);
 
@@ -59,13 +175,12 @@ function CreateSpotPage() {
       const createdSpot = await dispatch(createSpot(newSpot));
       if (createdSpot) {
         for (let image of images) {
-          if (image) {
-            await dispatch(addImageToSpot(createdSpot.id, { url: image, preview: false }));
+          if (image.tempId) {
+            // Associate the temporary image with the newly created spot
+            await dispatch(addImageToSpot(createdSpot.id, { tempId: image.tempId, preview: image.url === previewImage }));
           }
         }
-        // Add preview image to the spot
-        await dispatch(addImageToSpot(createdSpot.id, { url: previewImage, preview: true }));
-        navigate(`/spots/${createdSpot.id}`); // Navigate to the new spot's details page
+        navigate(`/spots/${createdSpot.id}`);
       }
     } catch (error) {
       if (error.json) {
@@ -83,73 +198,88 @@ function CreateSpotPage() {
       <form onSubmit={handleSubmit}>
         {/* Location Inputs */}
         <div>
-          <h2>Where&apos;s your place located?</h2>
-          <p>Guests will only get your exact address once they&apos;ve booked a reservation.</p>
-          <label>
-            Country
-            <input
-              type="text"
-              placeholder="Country"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              required
-            />
-          </label>
-          <label>
-            Street Address
-            <input
-              type="text"
-              placeholder="Street Address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              required
-            />
-          </label>
-          <div className="inline-fields">
-            <label>
-              City
-              <input
-                type="text"
-                placeholder="City"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                required
-              />
-            </label>
-            <span className="comma">,</span>
-            <label>
-              State
-              <input
-                type="text"
-                placeholder="State"
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-                required
-              />
-            </label>
-          </div>
-          <div className="inline-fields">
-            <label>
-              Latitude (optional)
-              <input
-                type="number"
-                placeholder="Latitude"
-                value={lat}
-                onChange={(e) => setLat(e.target.value)}
-              />
-            </label>
-            <span className="comma">,</span>
-            <label>
-              Longitude (optional)
-              <input
-                type="number"
-                placeholder="Longitude"
-                value={lng}
-                onChange={(e) => setLng(e.target.value)}
-              />
-            </label>
-          </div>
-        </div>
+  <h2>Where&apos;s your place located?</h2>
+  <p>Guests will only get your exact address once they&apos;ve booked a reservation.</p>
+  
+  <div className="form-group">
+    <label className="form-label">
+      Country
+      <input
+        type="text"
+        placeholder="Country"
+        value={country}
+        onChange={(e) => setCountry(e.target.value)}
+        required
+        className="form-input"
+      />
+    </label>
+    <label className="form-label">
+      Street Address
+      <input
+        type="text"
+        placeholder="Street Address"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        required
+        className="form-input"
+      />
+    </label>
+  </div>
+
+  <div className="form-group">
+    <label className="form-label">
+      City
+      <input
+        type="text"
+        placeholder="City"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+        required
+        className="form-input"
+      />
+    </label>
+    <label className="form-label">
+  Region
+  <select
+    value={state}
+    onChange={(e) => setState(e.target.value)}
+    required
+    className="form-input select-input" // Adding select-input class for any specific styles needed
+  >
+    <option value="" disabled>Select a region</option> {/* Default placeholder option */}
+    <option value="The Shire">The Shire</option>
+    <option value="Eriador">Eriador</option>
+    <option value="Wilderland">Wilderland</option>
+    <option value="Rhovanion">Rhovanion</option>
+  </select>
+</label>
+
+  </div>
+
+  <div className="form-group">
+    <label className="form-label">
+      Latitude (optional)
+      <input
+        type="number"
+        placeholder="Latitude"
+        value={lat}
+        onChange={(e) => setLat(e.target.value)}
+        className="form-input"
+      />
+    </label>
+    <label className="form-label">
+      Longitude (optional)
+      <input
+        type="number"
+        placeholder="Longitude"
+        value={lng}
+        onChange={(e) => setLng(e.target.value)}
+        className="form-input"
+      />
+    </label>
+  </div>
+</div>
+
 
         {/* Description */}
         <div>
@@ -195,30 +325,136 @@ function CreateSpotPage() {
           </div>
         </div>
 
-        {/* Images */}
         <div>
           <h2>Liven up your spot with photos</h2>
-          <p>Submit a link to at least one photo to publish your spot.</p>
-          <input
-            type="text"
-            placeholder="Preview Image URL"
-            value={previewImage}
-            onChange={(e) => setPreviewImage(e.target.value)}
-            required
-          />
-          {images.map((image, index) => (
+          <p>Add at least one image to create a spot.</p>
+
+          {/* Image URL Input Fields */}
+          <div className="image-url-container">
+            {images
+              .filter(image => !image.tempId) // Exclude uploaded images
+              .map((image, index) => (
+                <div key={index} className="image-url-input">
+                  <input
+                    type="checkbox"
+                    checked={image.selected || false}
+                    onChange={(e) => handleImageSelect(index, e.target.checked)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Image URL"
+                    value={image.url}
+                    onChange={(e) => handleImageChange(index, e.target.value)}
+                    className="url-input"
+                  />
+                  {imageErrors[index] && (
+                    <p className="error-message">{imageErrors[index]}</p>
+                  )}
+                </div>
+              ))}
+
+            {/* Control Buttons for URL-based images */}
+            {selectedUrlImagesCount > 0 && (
+              <div className="url-image-options">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const selectedImage = images.find(image => image.selected);
+                    handleSetPreviewImage(selectedImage.url);
+                  }}
+                  disabled={selectedUrlImagesCount !== 1}
+                  className={selectedUrlImagesCount !== 1 ? 'button-disabled' : ''}
+                >
+                  Make Preview Image
+                </button>
+                <button
+                  type="button"
+                  onClick={handleRemoveImage}
+                >
+                  Remove Selected Image URLs
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Link to add another image URL input */}
+          <a href="#add-image" onClick={handleAddImageUrl}>
+            Add Another Image URL
+          </a>
+
+          {/* Image Upload */}
+          <div className="upload-image-container">
             <input
-              key={index}
-              type="text"
-              placeholder="Image URL"
-              value={image}
-              onChange={(e) => {
-                const newImages = [...images];
-                newImages[index] = e.target.value;
-                setImages(newImages);
-              }}
+              type="file"
+              onChange={(e) => handleUploadImage(e.target.files[0])}
+              disabled={uploading}
             />
-          ))}
+            {uploading && <p className="loading-message">Uploading image...</p>}
+            {uploadSuccess && !uploading && <p className="success-message">Image successfully uploaded</p>}
+          </div>
+
+          {imageErrors.noImage && (
+            <p className="error-message">{imageErrors.noImage}</p>
+          )}
+          {imageErrors.noPreview && (
+            <p className="error-message">{imageErrors.noPreview}</p>
+          )}
+
+          {/* Preview Image */}
+          {previewImage && (
+            <div className="preview-image-container">
+              <h3>Preview Image</h3>
+              <div className="image-container">
+                <img src={previewImage} alt="Preview" className="uploaded-image-preview" />
+                <span className="preview-image-label">Preview Image</span>
+              </div>
+            </div>
+          )}
+
+          {/* Display all uploaded and URL-based images in a single row */}
+          {images.length > 1 && (
+            <div className="uploaded-images-container">
+              {images
+                .filter(image => image.url !== previewImage) // Exclude preview image
+                .map((image, index) => (
+                  <div key={index} className="uploaded-image-item">
+                    <div className="image-checkbox-container">
+                      <input
+                        type="checkbox"
+                        checked={image.selected || false}
+                        onChange={(e) => handleImageSelect(index, e.target.checked)}
+                      />
+                      <img src={image.url} alt={`Uploaded ${index + 1}`} className="uploaded-image-preview" />
+                    </div>
+                  </div>
+                ))}
+            </div>
+          )}
+
+          {/* Control Buttons for Uploaded Images */}
+          {selectedUploadedImagesCount > 0 && (
+            <div className="image-options">
+              <button
+                type="button"
+                onClick={() => {
+                  const selectedImage = images.find(image => image.selected);
+                  handleSetPreviewImage(selectedImage.url);
+                }}
+                disabled={selectedUploadedImagesCount !== 1}
+                className={selectedUploadedImagesCount !== 1 ? 'button-disabled' : ''}
+              >
+                Make Preview Image
+              </button>
+              <button
+                type="button"
+                onClick={handleRemoveImage}
+                disabled={images.length === 1}
+                className={images.length === 1 ? 'button-disabled' : ''}
+              >
+                Remove Selected Image
+              </button>
+            </div>
+          )}
         </div>
 
         {errors && (

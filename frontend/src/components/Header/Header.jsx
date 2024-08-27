@@ -62,7 +62,10 @@ function Header() {
           <h1>Shirebnb</h1>
         </Link>
         <div className="right-section">
-          <Link to="/spots/new" className="create-spot-link">Create a New Spot</Link>
+          {sessionUser && (
+            <Link to="/spots/new" className="create-spot-link">Create a New Spot</Link>
+          )
+          }
           <div className="icon-group" onClick={toggleMenu}>
             <div className="hamburger-menu">&#9776;</div>
             <User className="user-icon" />

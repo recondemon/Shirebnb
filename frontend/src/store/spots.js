@@ -7,6 +7,7 @@ const CREATE_SPOT = 'spots/createSpot';
 const UPDATE_SPOT = 'spots/updateSpot';
 const DELETE_SPOT = 'spots/deleteSpot';
 const ADD_IMAGE_TO_SPOT = 'spots/addImageToSpot';
+const UPLOAD_TEMPORARY_IMAGE = 'spots/uploadTemporaryImage';
 
 // Action Creators
 const setSpots = (spots) => ({
@@ -42,6 +43,11 @@ const removeSpot = (spotId) => ({
 const addImage = (spotId, image) => ({
   type: ADD_IMAGE_TO_SPOT,
   spotId,
+  image,
+});
+
+const uploadTemporaryImageSuccess = (image) => ({
+  type: UPLOAD_TEMPORARY_IMAGE,
   image,
 });
 
@@ -95,14 +101,53 @@ export const createSpot = (spotData) => async (dispatch) => {
   }
 };
 
+export const uploadTemporaryImage = (file) => async (dispatch) => {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  try {
+    const response = await csrfFetch('/api/spots/images/temporary-upload', {
+      method: 'POST',
+      body: formData,  
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(addImage(data.url, data.tempId));
+      return { url: data.url, tempId: data.tempId };
+    } else {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to upload image');
+    }
+  } catch (error) {
+    console.error('Error uploading image:', error.message);
+    throw error;
+  }
+};
+
+
 export const addImageToSpot = (spotId, imageData) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(imageData),
-  });
+  let response;
+
+  if (imageData.file) {
+    // If it's a file, upload the image
+    const formData = new FormData();
+    formData.append('image', imageData.file);
+
+    response = await csrfFetch(`/api/spots/${spotId}/images/upload`, {
+      method: 'POST',
+      body: formData,
+    });
+  } else {
+    // If it's a URL, directly add the image URL
+    response = await csrfFetch(`/api/spots/${spotId}/images`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(imageData),
+    });
+  }
 
   if (response.ok) {
     const image = await response.json();
@@ -215,6 +260,14 @@ const spotsReducer = (state = initialState, action) => {
             : spot
         ),
       };
+      case UPLOAD_TEMPORARY_IMAGE:
+        return {
+          ...state,
+          // If you want to store the uploaded images in your state:
+          temporaryImages: state.temporaryImages
+            ? [...state.temporaryImages, action.image]
+            : [action.image],
+        };  
     default:
       return state;
   }

@@ -1,13 +1,36 @@
+
 const express = require('express');
 const { Spot, SpotImage, Review, Booking, User, ReviewImage } = require('../../db/models');
-
+const multer = require('multer');
 const { Op, Sequelize } = require('sequelize');
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
+const path = require('path');
+const fs = require('fs');
 const formatDate = (date) => {
   const isoString = date.toISOString();
   return isoString.substring(0, 19).replace('T', ' ');
 };
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadPath = path.join(__dirname, '../../uploads');
+    // Ensure the directory exists
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
+    cb(null, uploadPath);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 10 * 1024 * 1024 }
+});
 
 /****** GET ROUTES ******************************************/
 
@@ -393,53 +416,80 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
   }
 });
 
-// Create a review for a spot
-router.post('/:spotId/reviews', requireAuth, async (req, res) => {
-  const spotId = req.params.spotId;
-  const userId = req.user.id;
-  const { review, stars } = req.body;
-  const spot = await Spot.findByPk(spotId);
-  if (!spot) {
-      return res.status(404).json({
-          message: "Spot couldn't be found",
-      });
-  }
-  const currReview = await Review.findOne({
-      where: {
-          spotId,
-          userId,
-      },
-  });
-  if (currReview) {
-      return res.status(500).json({
-          message: 'User already has a review for this spot',
-      });
-  }
-  if (!review || stars == null) {
-      return res.status(400).json({
-          message: 'Validation error',
-          errors: {
-              review: 'Review text is required',
-              stars: 'Stars must be an integer from 1 to 5',
-          },
-      });
-  }
-  if (stars < 1 || stars > 5 || !Number.isInteger(stars)) {
-      return res.status(400).json({
-          message: 'Validation error',
-          errors: {
-              stars: 'Stars must be an integer from 1 to 5',
-          },
-      });
-  }
-  const newReview = await Review.create({
-      userId,
+router.post("/:spotId/images/upload", requireAuth, upload.single('image'), async (req, res) => {
+  try {
+    const currentUser = req.user;
+    const spotId = req.params.spotId;
+
+    const existingSpot = await Spot.findByPk(spotId);
+
+    if (!existingSpot) {
+      res.status(404);
+      return res.json({ "message": "Spot could not be found" });
+    } else if (currentUser.id !== existingSpot.ownerId) {
+      res.status(403);
+      return res.json({ "message": "Forbidden" });
+    }
+
+    const file = req.file;
+    if (!file) {
+      res.status(400);
+      return res.json({ "message": "No file uploaded" });
+    }
+
+    // Store the file path in the database
+    const postImage = await SpotImage.create({
       spotId,
-      review,
-      stars,
-  });
-  res.status(201).json(newReview);
+      url: `/uploads/${file.filename}`,
+      preview: req.body.preview || false,
+    });
+
+    res.status(200);
+    return res.json({
+      id: postImage.id,
+      url: postImage.url,
+      preview: postImage.preview
+    });
+  } catch (err) {
+    res.status(500);
+    return res.json({ "message": "Server error" });
+  }
 });
+router.post('/images/temporary-upload', upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    // Construct the full URL to the uploaded image
+    const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+
+    res.status(200).json({ url: imageUrl });
+  } catch (err) {
+    console.error('Error during image upload:', err);
+    res.status(500).json({ message: 'Server error during image upload' });
+  }
+});
+
+router.post('/:spotId/images/associate', requireAuth, async (req, res) => {
+  try {
+    const { tempId, preview } = req.body;
+    const spotId = req.params.spotId;
+
+    // Move the image from the temporary location to the final location
+    // Update the database to associate the image with the spot
+
+    res.status(200).json({
+      spotId,
+      url: finalUrl, // Final URL after moving the image
+      preview,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to associate image with spot' });
+  }
+});
+
 
 // Create a booking for a spot
 router.post("/:spotId/bookings", requireAuth, async (req, res) => {
