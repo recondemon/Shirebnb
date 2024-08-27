@@ -46,11 +46,6 @@ const addImage = (spotId, image) => ({
   image,
 });
 
-const uploadTemporaryImageSuccess = (image) => ({
-  type: UPLOAD_TEMPORARY_IMAGE,
-  image,
-});
-
 // Thunks
 export const fetchSpots = () => async (dispatch) => {
   const response = await csrfFetch('/api/spots');
