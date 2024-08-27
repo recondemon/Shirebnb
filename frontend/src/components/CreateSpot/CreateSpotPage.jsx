@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createSpot, addImageToSpot, uploadTemporaryImage } from '../../store/spots';
 import './createSpot.css';
+import { Plus } from 'lucide-react';
 
 function CreateSpotPage() {
   const dispatch = useDispatch();
@@ -138,25 +139,41 @@ function CreateSpotPage() {
       newImages[index].url = value;
       newImages[index].file = null;
     }
+    
     setImages(newImages);
+  
+    // Automatically set the first image as the preview image
+    if (!previewImage && newImages[index].url) {
+      setPreviewImage(newImages[index].url);
+    }
   };
 
-  // Function to handle form submission
+  const validateAddress = () => {
+    const errors = {};
+    if (address.length < 5) {
+      errors.address = 'Street address must be at least 5 characters long';
+    }
+    return errors;
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
     setSubmitErrors({});
     setImageErrors({});
-
-    const validationErrors = validateDescription();
+  
+    const validationErrors = {
+      ...validateDescription(),
+      ...validateAddress()
+    };
     const imageValidationErrors = validateImages();
-
+  
     if (Object.keys(validationErrors).length > 0 || Object.keys(imageValidationErrors).length > 0) {
       setSubmitErrors(validationErrors);
       setImageErrors(imageValidationErrors);
       return;
     }
-
+  
     const newSpot = {
       address,
       city,
@@ -167,10 +184,10 @@ function CreateSpotPage() {
       price: parseFloat(price),
       previewImage,
     };
-
+  
     if (lat) newSpot.lat = parseFloat(lat);
     if (lng) newSpot.lng = parseFloat(lng);
-
+  
     try {
       const createdSpot = await dispatch(createSpot(newSpot));
       if (createdSpot) {
@@ -178,8 +195,12 @@ function CreateSpotPage() {
           if (image.tempId) {
             // Associate the temporary image with the newly created spot
             await dispatch(addImageToSpot(createdSpot.id, { tempId: image.tempId, preview: image.url === previewImage }));
+          } else if (image.url) {
+            // Add URL-based image
+            await dispatch(addImageToSpot(createdSpot.id, { url: image.url, preview: image.url === previewImage }));
           }
         }
+        console.log('Navigating to spot details page with ID:', createdSpot.id);
         navigate(`/spots/${createdSpot.id}`);
       }
     } catch (error) {
@@ -191,6 +212,8 @@ function CreateSpotPage() {
       }
     }
   };
+  
+
 
   return (
     <div className="create-spot-page">
@@ -214,16 +237,19 @@ function CreateSpotPage() {
       />
     </label>
     <label className="form-label">
-      Street Address
-      <input
-        type="text"
-        placeholder="Street Address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-        required
-        className="form-input"
-      />
-    </label>
+        Street Address
+        <input
+          type="text"
+          placeholder="Street Address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          required
+          className="form-input"
+        />
+        {submitErrors.address && (
+          <p className="error-message">{submitErrors.address}</p>
+        )}
+      </label>
   </div>
 
   <div className="form-group">
@@ -378,9 +404,11 @@ function CreateSpotPage() {
           </div>
 
           {/* Link to add another image URL input */}
-          <a href="#add-image" onClick={handleAddImageUrl}>
-            Add Another Image URL
-          </a>
+          <div className='add-url-link'>
+            <a href="#add-image" onClick={handleAddImageUrl} className='add-url-link'>
+              <Plus className='plus'/> Add Another Image URL
+            </a>
+          </div>
 
           {/* Image Upload */}
           <div className="upload-image-container">
@@ -456,15 +484,15 @@ function CreateSpotPage() {
             </div>
           )}
         </div>
-
-        {errors && (
-          <div className="errors">
-            {Object.values(errors).map((error, index) => (
-              <p key={index}>{error}</p>
-            ))}
-          </div>
+        {submitErrors.address && (
+          <p className="error-message">{submitErrors.address}</p>
         )}
-
+                  {submitErrors.description && (
+            <p className="error-message">{submitErrors.description}</p>
+          )}
+          {errors && (
+            <p className="error-message">{errors.global}</p>
+          )}
         <button type="submit">Create Spot</button>
       </form>
     </div>

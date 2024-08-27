@@ -344,6 +344,8 @@ router.post("/", requireAuth, async (req, res) => {
 
     let { address, city, state, country, lat, lng, name, description, price } = req.body;
 
+    console.log("Received data:", { address, city, state, country, lat, lng, name, description, price });
+
     let errors = {};
     if (!address) errors.address = "Street address is required";
     if (!city) errors.city = "City is required";
@@ -354,6 +356,7 @@ router.post("/", requireAuth, async (req, res) => {
     if (!price || isNaN(price) || price < 0) errors.price = "Price per day is required and must be a number equal to or greater than 0";
 
     if (Object.keys(errors).length > 0) {
+      console.log("Validation errors:", errors);
       res.status(400);
       return res.json({
         "message": "Bad Request",
@@ -365,57 +368,57 @@ router.post("/", requireAuth, async (req, res) => {
       ownerId: currentUser.id, address, city, state, country, name, description, price, lat, lng
     });
 
+    console.log("Spot created successfully:", createSpot);
+
     res.status(201);
     return res.json(createSpot);
   } catch (err) {
+    console.error("Server error:", err);
     res.status(500);
     return res.json({ "message": "Server error" });
   }
 });
+
 
 // Add an image to a spot
 router.post("/:spotId/images", requireAuth, async (req, res) => {
   try {
-    let currentUser = req.user
-    let spotId = req.params.spotId;
+    const currentUser = req.user;
+    const spotId = req.params.spotId;
 
-    let existingSpot = await Spot.findByPk(spotId);
+    const existingSpot = await Spot.findOne({
+      where: {
+        id: spotId,
+        ownerId: currentUser.id
+      }
+    });
 
     if (!existingSpot) {
-      res.status(404);
-      return res.json({ "message": "Spot could not be found" });
-
-    } else if (currentUser.id !== existingSpot.ownerId) {
-      res.status(403);
-      return res.json({ "message": "Forbidden" });
-
-    } else {
-      existingSpot = await Spot.findOne({
-        where: {
-          id: spotId,
-          ownerId: currentUser.id
-        }
-      });
-
-      let { url, preview } = req.body;
-
-      let postImage = await SpotImage.create({
-        spotId, url, preview
-      });
-
-      res.status(200);
-      return res.json({
-        id: postImage.id,
-        url: postImage.url,
-        preview: postImage.preview
-      });
+      return res.status(404).json({ message: "Spot could not be found or you are not the owner" });
     }
+
+    const { url, preview } = req.body;
+
+    const postImage = await SpotImage.create({
+      spotId, 
+      url, 
+      preview
+    });
+
+    return res.status(200).json({
+      id: postImage.id,
+      url: postImage.url,
+      preview: postImage.preview
+    });
+
   } catch (err) {
-    res.status(500);
-    return res.json({ "message": "Server error" });
+    console.error("Server error:", err);
+    return res.status(500).json({ message: "Server error" });
   }
 });
 
+
+// Upload an image and associate it with a spot
 router.post("/:spotId/images/upload", requireAuth, upload.single('image'), async (req, res) => {
   try {
     const currentUser = req.user;
@@ -424,37 +427,34 @@ router.post("/:spotId/images/upload", requireAuth, upload.single('image'), async
     const existingSpot = await Spot.findByPk(spotId);
 
     if (!existingSpot) {
-      res.status(404);
-      return res.json({ "message": "Spot could not be found" });
+      return res.status(404).json({ message: "Spot could not be found" });
     } else if (currentUser.id !== existingSpot.ownerId) {
-      res.status(403);
-      return res.json({ "message": "Forbidden" });
+      return res.status(403).json({ message: "Forbidden" });
     }
 
     const file = req.file;
     if (!file) {
-      res.status(400);
-      return res.json({ "message": "No file uploaded" });
+      return res.status(400).json({ message: "No file uploaded" });
     }
 
-    // Store the file path in the database
     const postImage = await SpotImage.create({
       spotId,
       url: `/uploads/${file.filename}`,
       preview: req.body.preview || false,
     });
 
-    res.status(200);
-    return res.json({
+    return res.status(200).json({
       id: postImage.id,
       url: postImage.url,
       preview: postImage.preview
     });
   } catch (err) {
-    res.status(500);
-    return res.json({ "message": "Server error" });
+    console.error("Server error:", err);
+    return res.status(500).json({ message: "Server error" });
   }
 });
+
+
 router.post('/images/temporary-upload', upload.single('image'), async (req, res) => {
   try {
     if (!req.file) {

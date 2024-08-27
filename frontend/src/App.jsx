@@ -9,6 +9,7 @@ import Header from './components/Header';
 import CreateSpotPage from './components/CreateSpot/CreateSpotPage';
 import ManageSpots from './components/ManageSpots/ManageSpots';
 import UpdateSpotPage from './components/UpdateSpot/UpdateSpotPage';
+import MoreSpots from './components/MoreSpots/MoreSpots';
 import { restoreUser } from './store/session';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/spots/:spotId" element={<SpotDetails />} />
         <Route path="/manage-spots" element={<ManageSpots />} />
         <Route path="/spots/:spotId/edit" element={<UpdateSpotPage />} /> 
+        <Route path="/spots/state/:region" component={<MoreSpots />} />
       </Routes>
     </>
   );
