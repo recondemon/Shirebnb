@@ -437,27 +437,30 @@ router.post("/:spotId/images/upload", requireAuth, upload.single('image'), async
       return res.status(400).json({ message: "No file uploaded" });
     }
 
+    // Save the image URL in the SpotImage table
     const postImage = await SpotImage.create({
       spotId,
       url: `/uploads/${file.filename}`,
       preview: req.body.preview || false,
     });
 
+    // Return the image details
     return res.status(200).json({
       id: postImage.id,
       url: postImage.url,
-      preview: postImage.preview
+      preview: postImage.preview,
     });
   } catch (err) {
-    console.error("Server error:", err);
-    return res.status(500).json({ message: "Server error" });
+    console.error("Server error during image upload:", err);
+    return res.status(500).json({ message: "Server error during image upload" });
   }
 });
 
-
 router.post('/images/temporary-upload', upload.single('image'), async (req, res) => {
   try {
-    if (!req.file) {
+    const file = req.file;
+
+    if (!file) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
@@ -470,7 +473,6 @@ router.post('/images/temporary-upload', upload.single('image'), async (req, res)
     res.status(500).json({ message: 'Server error during image upload' });
   }
 });
-
 router.post('/:spotId/images/associate', requireAuth, async (req, res) => {
   try {
     const { tempId, preview } = req.body;

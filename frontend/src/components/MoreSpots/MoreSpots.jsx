@@ -26,7 +26,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
 }));
 
 function MoreSpots() {
-  const { region } = useParams(); // Extract the region from the URL
+  const { region } = useParams();
   const dispatch = useDispatch();
   const spots = useSelector((state) => state.spots.allSpots);
   const [filteredSpots, setFilteredSpots] = useState([]);
@@ -37,30 +37,29 @@ function MoreSpots() {
 
   useEffect(() => {
     if (spots.length > 0 && region) {
-      // Filter spots based on the region
       const spotsInRegion = spots.filter((spot) => spot.state === region);
       setFilteredSpots(spotsInRegion);
     }
   }, [spots, region]);
 
   return (
-    <div className="more-spots-container">
-      <h1>Spots in {region}</h1>
-      <div className="spots-grid">
+    <div className="more-spots-page-container">
+      <h1 className="more-spots-page-title">Spots in {region}</h1>
+      <div className="more-spots-grid">
         {filteredSpots.map((spot) => (
-          <Link to={`/spots/${spot.id}`} key={spot.id} className="spot-link">
-            <div className="spot">
+          <Link to={`/spots/${spot.id}`} key={spot.id} className="more-spot-link">
+            <div className="more-spot-item">
               <CustomTooltip title={spot.name} arrow placement="top">
-                <img src={spot.previewImage} alt={spot.name} />
+                <img src={spot.previewImage} alt={spot.name} className="more-spot-image" />
               </CustomTooltip>
-              <div className="spot-info">
-                <div className="spot-details">
+              <div className="more-spot-info">
+                <div className="more-spot-details">
                   <p>
                     {spot.city}, {spot.state}
                   </p>
-                  <p className="star-rating">⭐ {spot.avgRating}</p>
+                  <p className="more-spot-star-rating">⭐ {spot.avgRating}</p>
                 </div>
-                <p className="spot-price">${spot.price} per night</p>
+                <p className="more-spot-price">${spot.price} per night</p>
               </div>
             </div>
           </Link>

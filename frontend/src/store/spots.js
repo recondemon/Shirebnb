@@ -103,7 +103,7 @@ export const uploadTemporaryImage = (file) => async (dispatch) => {
   try {
     const response = await csrfFetch('/api/spots/images/temporary-upload', {
       method: 'POST',
-      body: formData,  
+      body: formData,
     });
 
     if (response.ok) {
@@ -112,6 +112,7 @@ export const uploadTemporaryImage = (file) => async (dispatch) => {
       return { url: data.url, tempId: data.tempId };
     } else {
       const errorData = await response.json();
+      console.error('Error uploading image:', errorData.message);
       throw new Error(errorData.message || 'Failed to upload image');
     }
   } catch (error) {
@@ -122,35 +123,40 @@ export const uploadTemporaryImage = (file) => async (dispatch) => {
 
 
 export const addImageToSpot = (spotId, imageData) => async (dispatch) => {
-  let response;
+  try {
+    let response;
 
-  if (imageData.file) {
-    // If it's a file, upload the image
-    const formData = new FormData();
-    formData.append('image', imageData.file);
+    if (imageData.file) {
+      // If it's a file, upload the image
+      const formData = new FormData();
+      formData.append('image', imageData.file);
 
-    response = await csrfFetch(`/api/spots/${spotId}/images/upload`, {
-      method: 'POST',
-      body: formData,
-    });
-  } else {
-    // If it's a URL, directly add the image URL
-    response = await csrfFetch(`/api/spots/${spotId}/images`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(imageData),
-    });
-  }
+      response = await csrfFetch(`/api/spots/${spotId}/images/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+    } else {
+      // If it's a URL, directly add the image URL
+      response = await csrfFetch(`/api/spots/${spotId}/images`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(imageData),
+      });
+    }
 
-  if (response.ok) {
-    const image = await response.json();
-    dispatch(addImage(spotId, image));
-    return image;
-  } else {
-    const errorData = await response.json();
-    throw new Error(errorData.message);
+    if (response.ok) {
+      const image = await response.json();
+      dispatch(addImage(spotId, image));
+      return image;
+    } else {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+  } catch (error) {
+    console.error('Error adding image to spot:', error.message);
+    throw error;
   }
 };
 

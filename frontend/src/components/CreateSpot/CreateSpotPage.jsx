@@ -22,8 +22,9 @@ function CreateSpotPage() {
   const [errors, setErrors] = useState({});
   const [submitErrors, setSubmitErrors] = useState({});
   const [imageErrors, setImageErrors] = useState({});
-  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [uploadSuccess] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [showDeprecationNotice, setShowDeprecationNotice] = useState(false);
 
   // Count selected images
   const selectedUrlImagesCount = images.filter(image => !image.tempId && image.selected).length;
@@ -43,12 +44,17 @@ function CreateSpotPage() {
         setImages(prevImages => [...prevImages, newImage]);
       }
 
-      setUploadSuccess(true);
+      setUploading(false);
+      setShowDeprecationNotice(true); // Show the notice after upload
     } catch (error) {
       console.error('Error uploading image:', error.message);
-    } finally {
       setUploading(false);
     }
+  };
+
+  // Function to close the notice
+  const closeNotice = () => {
+    setShowDeprecationNotice(false);
   };
 
   // Function to add an image URL input field
@@ -90,22 +96,36 @@ function CreateSpotPage() {
     setImages(updatedImages.filter(image => image.url !== url));
   };
 
-  // Function to validate the description field
-  const validateDescription = () => {
+  const validateFields = () => {
     const errors = {};
+  
+    // Validate address
+    if (address.length < 5) {
+      errors.address = 'Street address must be at least 5 characters long';
+    }
+  
+    // Validate description
     if (description.length < 30) {
       errors.description = 'Description must be at least 30 characters long';
     }
-    return errors;
+  
+    // Validate price
+    if (price <= 0) {
+      errors.price = 'Price per night must be a positive number';
+    }
+  
+    // Validate image URLs and files
+    const imageValidationErrors = validateImages();
+    return { ...errors, ...imageValidationErrors };
   };
 
   // Function to validate image URLs and files
   const validateImages = () => {
     const errors = {};
     const validImageUrlRegex = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif))$/i;
-
+  
     let imageProvided = false;
-
+  
     images.forEach((image, index) => {
       if (image.url) {
         if (!validImageUrlRegex.test(image.url)) {
@@ -117,17 +137,20 @@ function CreateSpotPage() {
         imageProvided = true;
       }
     });
-
+  
+    if (!previewImage) {
+      errors.noPreview = 'Please select a preview image.';
+    } else {
+      imageProvided = true;
+    }
+  
     if (!imageProvided) {
       errors.noImage = 'Please provide at least one image.';
     }
-
-    if (!previewImage) {
-      errors.noPreview = 'Please select a preview image.';
-    }
-
+  
     return errors;
   };
+  
 
   // Function to handle changes to image URLs or files
   const handleImageChange = (index, value, isFile = false) => {
@@ -148,13 +171,13 @@ function CreateSpotPage() {
     }
   };
 
-  const validateAddress = () => {
-    const errors = {};
-    if (address.length < 5) {
-      errors.address = 'Street address must be at least 5 characters long';
-    }
-    return errors;
-  };
+  // const validateAddress = () => {
+  //   const errors = {};
+  //   if (address.length < 5) {
+  //     errors.address = 'Street address must be at least 5 characters long';
+  //   }
+  //   return errors;
+  // };
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -162,15 +185,11 @@ function CreateSpotPage() {
     setSubmitErrors({});
     setImageErrors({});
   
-    const validationErrors = {
-      ...validateDescription(),
-      ...validateAddress()
-    };
-    const imageValidationErrors = validateImages();
+    // Validate form fields
+    const validationErrors = validateFields();
   
-    if (Object.keys(validationErrors).length > 0 || Object.keys(imageValidationErrors).length > 0) {
+    if (Object.keys(validationErrors).length > 0) {
       setSubmitErrors(validationErrors);
-      setImageErrors(imageValidationErrors);
       return;
     }
   
@@ -200,19 +219,13 @@ function CreateSpotPage() {
             await dispatch(addImageToSpot(createdSpot.id, { url: image.url, preview: image.url === previewImage }));
           }
         }
-        console.log('Navigating to spot details page with ID:', createdSpot.id);
         navigate(`/spots/${createdSpot.id}`);
       }
     } catch (error) {
-      if (error.json) {
-        const errorData = await error.json();
-        setErrors(errorData.errors);
-      } else {
-        setErrors({ global: 'An unexpected error occurred' });
-      }
+      const errorData = error.json ? await error.json() : { global: 'An unexpected error occurred' };
+      setErrors(errorData.errors || { global: 'An unexpected error occurred' });
     }
   };
-  
 
 
   return (
@@ -246,10 +259,8 @@ function CreateSpotPage() {
           required
           className="form-input"
         />
-        {submitErrors.address && (
-          <p className="error-message">{submitErrors.address}</p>
-        )}
       </label>
+
   </div>
 
   <div className="form-group">
@@ -279,7 +290,9 @@ function CreateSpotPage() {
     <option value="Rhovanion">Rhovanion</option>
   </select>
 </label>
-
+{submitErrors.address && (
+  <p className="error-message">{submitErrors.address}</p>
+)}
   </div>
 
   <div className="form-group">
@@ -317,9 +330,9 @@ function CreateSpotPage() {
             onChange={(e) => setDescription(e.target.value)}
             required
           />
-          {submitErrors.description && (
-            <p className="error-message">{submitErrors.description}</p>
-          )}
+{submitErrors.description && (
+  <p className="error-message">{submitErrors.description}</p>
+)}
         </div>
 
         {/* Title */}
@@ -349,6 +362,9 @@ function CreateSpotPage() {
               required
             />
           </div>
+          {submitErrors.price && (
+  <p className="error-message">{submitErrors.price}</p>
+)}
         </div>
 
         <div>
@@ -485,14 +501,33 @@ function CreateSpotPage() {
           )}
         </div>
         {submitErrors.address && (
-          <p className="error-message">{submitErrors.address}</p>
-        )}
-                  {submitErrors.description && (
-            <p className="error-message">{submitErrors.description}</p>
-          )}
+  <p className="error-message">{submitErrors.address}</p>
+)}
+{submitErrors.description && (
+  <p className="error-message">{submitErrors.description}</p>
+)}
+{submitErrors.price && (
+  <p className="error-message">{submitErrors.price}</p>
+)}
+{errors.global && (
+  <p className="error-message">{errors.global}</p>
+)}
           {errors && (
             <p className="error-message">{errors.global}</p>
           )}
+
+                {/* Deprecation Notice Modal */}
+      {showDeprecationNotice && (
+        <div className="deprecation-modal">
+          <div className="deprecation-modal-content">
+            <p>
+              Please note that the uploaded images feature is currently deprecated and may not render images properly on your spot&apos;s detail page. For the best results, we recommend adding images via URL. Thank you for your understanding.
+            </p>
+            <button onClick={closeNotice}>Close</button>
+          </div>
+        </div>
+      )}
+
         <button type="submit">Create Spot</button>
       </form>
     </div>

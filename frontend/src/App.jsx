@@ -30,7 +30,7 @@ function App() {
         <Route path="/spots/:spotId" element={<SpotDetails />} />
         <Route path="/manage-spots" element={<ManageSpots />} />
         <Route path="/spots/:spotId/edit" element={<UpdateSpotPage />} /> 
-        <Route path="/spots/state/:region" component={<MoreSpots />} />
+        <Route path="/spots/state/:region" element={<MoreSpots />} />
       </Routes>
     </>
   );

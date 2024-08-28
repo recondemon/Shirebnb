@@ -1,5 +1,3 @@
-// frontend/src/components/UpdateSpot/UpdateSpotPage.jsx
-
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -40,20 +38,38 @@ function UpdateSpotPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({});
+    const newErrors = {};
 
-    const updatedSpot = {
-      address,
-      city,
-      state,
-      country,
-      name,
-      description,
-      price: parseFloat(price),
-      previewImage,
-    };
+    // Frontend validation
+    if (name.length < 2) {
+      newErrors.name = "Name must be at least 2 characters long.";
+    }
+    if (description.length < 30) {
+      newErrors.description = "Description must be at least 30 characters long.";
+    }
+    if (isNaN(price) || price <= 0) {
+      newErrors.price = "Please enter a valid price.";
+    }
 
+    // If there are errors, set them and prevent form submission
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    // Proceed with the backend submission if no errors
     try {
+      const updatedSpot = {
+        address,
+        city,
+        state,
+        country,
+        name,
+        description,
+        price: parseFloat(price),
+        previewImage,
+      };
+
       const updated = await dispatch(updateSpot(spotId, updatedSpot));
       if (updated) {
         navigate(`/spots/${updated.id}`);
@@ -71,7 +87,7 @@ function UpdateSpotPage() {
         {/* Location Inputs */}
         <div>
           <h2>Where&apos;s your place located?</h2>
-          <p>Guests will only get your exact address once they booked a reservation.</p>
+          <p>Guests will only get your exact address once they book a reservation.</p>
           <label>
             Country
             <input
@@ -81,6 +97,7 @@ function UpdateSpotPage() {
               onChange={(e) => setCountry(e.target.value)}
               required
             />
+            {errors.country && <p className="error-text">{errors.country}</p>}
           </label>
           <label>
             Street Address
@@ -91,6 +108,7 @@ function UpdateSpotPage() {
               onChange={(e) => setAddress(e.target.value)}
               required
             />
+            {errors.address && <p className="error-text">{errors.address}</p>}
           </label>
           <div className="inline-fields">
             <label>
@@ -102,6 +120,7 @@ function UpdateSpotPage() {
                 onChange={(e) => setCity(e.target.value)}
                 required
               />
+              {errors.city && <p className="error-text">{errors.city}</p>}
             </label>
             <span className="comma">,</span>
             <label>
@@ -113,6 +132,7 @@ function UpdateSpotPage() {
                 onChange={(e) => setState(e.target.value)}
                 required
               />
+              {errors.state && <p className="error-text">{errors.state}</p>}
             </label>
           </div>
         </div>
@@ -127,6 +147,7 @@ function UpdateSpotPage() {
             onChange={(e) => setDescription(e.target.value)}
             required
           />
+          {errors.description && <p className="error-text">{errors.description}</p>}
         </div>
 
         {/* Title */}
@@ -140,6 +161,7 @@ function UpdateSpotPage() {
             onChange={(e) => setName(e.target.value)}
             required
           />
+          {errors.name && <p className="error-text">{errors.name}</p>}
         </div>
 
         {/* Price */}
@@ -155,6 +177,7 @@ function UpdateSpotPage() {
               onChange={(e) => setPrice(e.target.value)}
               required
             />
+            {errors.price && <p className="error-text">{errors.price}</p>}
           </div>
         </div>
 
@@ -168,6 +191,7 @@ function UpdateSpotPage() {
             value={previewImage}
             onChange={(e) => setPreviewImage(e.target.value)}
           />
+          {errors.previewImage && <p className="error-text">{errors.previewImage}</p>}
         </div>
 
         {errors && (
