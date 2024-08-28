@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createSpot, addImageToSpot, uploadTemporaryImage } from '../../store/spots';
@@ -29,6 +30,24 @@ function CreateSpotPage() {
   // Count selected images
   const selectedUrlImagesCount = images.filter(image => !image.tempId && image.selected).length;
   const selectedUploadedImagesCount = images.filter(image => image.tempId && image.selected).length;
+
+  useEffect(() => {
+    // Cleanup function to reset state when component unmounts
+    return () => {
+      setAddress('');
+      setCity('');
+      setState('');
+      setCountry('');
+      setLat('');
+      setLng('');
+      setName('');
+      setDescription('');
+      setPrice('');
+      setPreviewImage('');
+      setImages([]);
+      setErrors({});
+    };
+  }, []);
 
   // Function to handle image file upload
   const handleUploadImage = async (file) => {
@@ -219,6 +238,21 @@ function CreateSpotPage() {
             await dispatch(addImageToSpot(createdSpot.id, { url: image.url, preview: image.url === previewImage }));
           }
         }
+        
+        // Reset form state after successful submission
+        setAddress('');
+        setCity('');
+        setState('');
+        setCountry('');
+        setLat('');
+        setLng('');
+        setName('');
+        setDescription('');
+        setPrice('');
+        setPreviewImage('');
+        setImages([]);
+        
+        // Navigate to the newly created spot's details page
         navigate(`/spots/${createdSpot.id}`);
       }
     } catch (error) {
@@ -226,6 +260,7 @@ function CreateSpotPage() {
       setErrors(errorData.errors || { global: 'An unexpected error occurred' });
     }
   };
+  
 
 
   return (
