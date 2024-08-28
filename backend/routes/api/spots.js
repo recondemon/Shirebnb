@@ -573,6 +573,39 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
   }
 });
 
+router.post('/:spotId/reviews', async (req, res) => {
+  const { spotId } = req.params;
+  const { review, stars } = req.body;
+  const userId = req.user.id; // Assuming you have user authentication set up
+
+  try {
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+      return res.status(404).json({
+        title: 'Resource Not Found',
+        errors: { message: "The requested resource couldn't be found." },
+      });
+    }
+
+    const newReview = await Review.create({
+      userId,
+      spotId,
+      review,
+      stars,
+    });
+
+    res.status(201).json(newReview);
+  } catch (err) {
+    res.status(500).json({
+      title: 'Server Error',
+      errors: { message: 'Something went wrong on the server.' },
+    });
+  }
+});
+
+module.exports = router;
+
 /****** PUT ROUTES ******************************************/
 
 // Edit a spot belonging to current user

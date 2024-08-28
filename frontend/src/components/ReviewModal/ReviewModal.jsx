@@ -1,4 +1,3 @@
-// frontend/src/components/ReviewModal/ReviewModal.jsx
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createReview } from '../../store/reviews';
