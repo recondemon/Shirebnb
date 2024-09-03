@@ -51,6 +51,7 @@ export const fetchSpots = () => async (dispatch) => {
   const response = await csrfFetch('/api/spots');
   if (response.ok) {
     const data = await response.json();
+    console.log('Fetched spots:', data.Spots);
     dispatch(setSpots(data.Spots));
   } else {
     console.log("something went wrong");
@@ -89,6 +90,7 @@ export const createSpot = (spotData) => async (dispatch) => {
   if (response.ok) {
     const spot = await response.json();
     dispatch(addSpot(spot));
+    dispatch(fetchSpots());
     return spot;
   } else {
     const errorData = await response.json();

@@ -25,9 +25,11 @@ function SpotDetails() {
 
   if (!loaded) return null;
 
-  const averageRating = reviews.length > 0 ? (reviews.reduce((acc, review) => acc + review.stars, 0) / reviews.length).toFixed(2) : "New";
+  const sortedReviews = reviews.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by newest first
 
-  const userHasReviewed = reviews.some((review) => review.userId === sessionUser?.id);
+  const averageRating = sortedReviews.length > 0 ? (sortedReviews.reduce((acc, review) => acc + review.stars, 0) / sortedReviews.length).toFixed(2) : "New";
+
+  const userHasReviewed = sortedReviews.some((review) => review.userId === sessionUser?.id);
   const isOwner = spot.ownerId === sessionUser?.id;
 
   const handleDeleteClick = (reviewId) => {
@@ -76,7 +78,7 @@ function SpotDetails() {
         <div className="callout-box">
           <p>
             <span className="price">${spot.price} per night</span>
-            <span className="rating-info">⭐ {averageRating} {reviews.length > 0 && <span>&middot; {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'}</span>}</span>
+            <span className="rating-info">⭐ {averageRating} {sortedReviews.length > 0 && <span>&middot; {sortedReviews.length} {sortedReviews.length === 1 ? 'Review' : 'Reviews'}</span>}</span>
           </p>
           <button onClick={() => alert('Feature coming soon')}>Reserve</button>
         </div>
@@ -85,16 +87,16 @@ function SpotDetails() {
         <h2>
           Reviews 
           <span>⭐ {averageRating}</span> 
-          {reviews.length > 0 && <span>&middot; {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'}</span>}
+          {sortedReviews.length > 0 && <span>&middot; {sortedReviews.length} {sortedReviews.length === 1 ? 'Review' : 'Reviews'}</span>}
         </h2>
         {sessionUser && !isOwner && !userHasReviewed && (
           <button className="post-review-btn" onClick={() => setShowReviewModal(true)}>Post Your Review</button>
         )}
         {showReviewModal && <ReviewModal spotId={spotId} onClose={() => setShowReviewModal(false)} onSubmit={handleReviewSubmit} />}
-        {reviews.length === 0 ? (
+        {sortedReviews.length === 0 ? (
           <p>Be the first to post a review!</p>
         ) : (
-          reviews.map((review, idx) => (
+          sortedReviews.map((review, idx) => (
             <div key={idx} className="review">
               <div className="review-header">
                 <p><strong>{review.User?.firstName}</strong></p>

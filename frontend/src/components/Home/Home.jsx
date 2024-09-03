@@ -32,11 +32,20 @@ function Home() {
   const [filter, setFilter] = useState({ country: 'All', region: 'All', city: 'All' });
 
   useEffect(() => {
+    console.log('Spots state updated:', spots);
     dispatch(fetchSpots());
   }, [dispatch]);
 
   useEffect(() => {
     if (spots.length > 0) {
+      // Build a dynamic list of countries based on the fetched spots
+      const allCountries = new Set(spots.map(spot => spot.country));
+      
+      // Ensure the current filter is valid; if not, reset to 'All'
+      if (filter.country !== 'All' && !allCountries.has(filter.country)) {
+        setFilter({ ...filter, country: 'All' });
+      }
+
       const filteredSpots = spots.filter((spot) => {
         const matchesCountry = filter.country === 'All' || spot.country === filter.country;
         const matchesRegion = filter.region === 'All' || spot.state === filter.region;
@@ -74,6 +83,7 @@ function Home() {
     setFilter({ ...filter, [e.target.name]: e.target.value });
   };
 
+  const uniqueCountries = ['All', ...new Set(spots.map((spot) => spot.country))];
   const uniqueRegions = [...new Set(spots.map((spot) => spot.state))];
   const uniqueCities = [...new Set(spots.filter((spot) => spot.state === filter.region).map((spot) => spot.city))];
 
@@ -82,8 +92,11 @@ function Home() {
       <h1>Middle Earth Stays</h1>
       <div className="filter-container">
         <select name="country" value={filter.country} onChange={handleFilterChange}>
-          <option value="All">All Countries</option>
-          <option value="Middle Earth">Middle Earth</option>
+          {uniqueCountries.map((country) => (
+            <option key={country} value={country}>
+              {country}
+            </option>
+          ))}
         </select>
         <select name="region" value={filter.region} onChange={handleFilterChange} disabled={filter.country === 'All'}>
           <option value="All">All Regions</option>
@@ -112,13 +125,13 @@ function Home() {
                 <Link to={`/spots/${spot.id}`} key={spot.id} className="spot-link">
                   <div className="spot">
                     <CustomTooltip title={spot.name} arrow placement="top">
-                      <img src={spot.previewImage} alt={spot.name} />
+                      <div className='spot-image-container'>
+                        <img src={spot.previewImage} alt={spot.name} />
+                      </div>
                     </CustomTooltip>
                     <div className="spot-info">
                       <div className="spot-details">
-                        <p>
-                          {spot.city}, {spot.state}
-                        </p>
+                        <p>{spot.city}, {spot.state}</p>
                         <p className="star-rating">⭐ {spot.avgRating}</p>
                       </div>
                       <p className="spot-price">${spot.price} per night</p>

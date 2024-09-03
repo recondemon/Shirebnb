@@ -40,12 +40,24 @@
   position: relative;
 }
 
-.spot img {
+.spot-image-container {
   width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 2px solid #2c2c2c; /* Border color slightly lighter than the background */
+  padding-top: 100%; /* Ensures a square aspect ratio */
+  position: relative;
+  overflow: hidden; /* Hide any overflowed content */
+  border-radius: 8px; /* Rounded corners */
+  border: 2px solid #2c2c2c; /* Slightly lighter than the background */
+}
+
+.spot-image-container img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%; /* Ensures the image covers the full width */
+  min-height: 100%; /* Ensures the image covers the full height */
+  object-fit: cover; /* Ensures the image fills the container and maintains aspect ratio */
+  transform: translate(-50%, -50%); /* Centers the image within the container */
+  border: none;
 }
 
 .spot-info {
