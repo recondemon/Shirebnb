@@ -1,1 +1,1 @@
-export {default} from './SpotDetails';
+export { default } from './SpotDetails';

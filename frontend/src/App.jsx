@@ -13,27 +13,27 @@ import MoreSpots from './components/MoreSpots/MoreSpots';
 import { restoreUser } from './store/session';
 
 function App() {
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(restoreUser());
-  }, [dispatch]);
+	useEffect(() => {
+		dispatch(restoreUser());
+	}, [dispatch]);
 
-  return (
-    <>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LoginFormPage />} />
-        <Route path="/signup" element={<SignupFormPage />} />
-        <Route path="/spots/new" element={<CreateSpotPage />} />
-        <Route path="/spots/:spotId" element={<SpotDetails />} />
-        <Route path="/manage-spots" element={<ManageSpots />} />
-        <Route path="/spots/:spotId/edit" element={<UpdateSpotPage />} /> 
-        <Route path="/spots/state/:region" element={<MoreSpots />} />
-      </Routes>
-    </>
-  );
+	return (
+		<>
+			<Header />
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/login" element={<LoginFormPage />} />
+				<Route path="/signup" element={<SignupFormPage />} />
+				<Route path="/spots/new" element={<CreateSpotPage />} />
+				<Route path="/spots/:spotId" element={<SpotDetails />} />
+				<Route path="/manage-spots" element={<ManageSpots />} />
+				<Route path="/spots/:spotId/edit" element={<UpdateSpotPage />} />
+				<Route path="/spots/state/:region" element={<MoreSpots />} />
+			</Routes>
+		</>
+	);
 }
 
 export default App;

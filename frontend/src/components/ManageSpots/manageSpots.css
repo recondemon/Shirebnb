@@ -1,100 +1,100 @@
 /* manageSpots.css */
 
 .manage-spots-container {
-  padding: 20px;
-  background-color: #1b1b1b;
-  color: #e0e0e0;
-  font-family: 'Garamond', serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	padding: 20px;
+	background-color: #1b1b1b;
+	color: #e0e0e0;
+	font-family: 'Garamond', serif;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .spots-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  width: 100%;
-  max-width: 1400px; /* Max width for the centered content */
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 20px;
+	width: 100%;
+	max-width: 1400px; /* Max width for the centered content */
 }
 
 .spot {
-  background-color: transparent;
-  border: none;
-  width: 100%; /* Full width within the grid */
-  text-align: left;
-  position: relative;
+	background-color: transparent;
+	border: none;
+	width: 100%; /* Full width within the grid */
+	text-align: left;
+	position: relative;
 }
 
 .spot:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .spot img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 2px solid #2c2c2c; /* Border color slightly lighter than the background */
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	border-radius: 8px;
+	border: 2px solid #2c2c2c; /* Border color slightly lighter than the background */
 }
 
 .spot-info {
-  padding-top: 10px;
+	padding-top: 10px;
 }
 
 .spot-details {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .spot p {
-  margin: 5px 0;
-  color: #e0e0e0;
+	margin: 5px 0;
+	color: #e0e0e0;
 }
 
 .spot-price {
-  margin-top: 5px;
+	margin-top: 5px;
 }
 
 .spot-actions {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 10px;
+	display: flex;
+	justify-content: space-between;
+	padding-top: 10px;
 }
 
 .spot-actions button {
-  background-color: #4caf50;
-  border: none;
-  color: #fff;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 5px;
+	background-color: #4caf50;
+	border: none;
+	color: #fff;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-right: 5px;
 }
 
 .spot-actions button:hover {
-  background-color: #45a049;
+	background-color: #45a049;
 }
 
 .spot-actions button:last-child {
-  background-color: #f44336;
-  margin-right: 0;
+	background-color: #f44336;
+	margin-right: 0;
 }
 
 .spot-actions button:last-child:hover {
-  background-color: #e53935;
+	background-color: #e53935;
 }
 
 .image-placeholder {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #444;
-  color: #fff;
-  font-size: 1rem;
-  text-align: center;
-  padding: 20px;
-  height: auto;
-  border-radius: 8px;
-  border: 2px solid #2c2c2c;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #444;
+	color: #fff;
+	font-size: 1rem;
+	text-align: center;
+	padding: 20px;
+	height: auto;
+	border-radius: 8px;
+	border: 2px solid #2c2c2c;
 }

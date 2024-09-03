@@ -1,272 +1,270 @@
 .create-spot-page {
-  padding: 20px;
-  max-width: 800px;
-  margin: 20px auto;
-  color: #e0e0e0;
-  background-color: #2a2a2a;
-  font-family: 'Garamond', serif;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	padding: 20px;
+	max-width: 800px;
+	margin: 20px auto;
+	color: #e0e0e0;
+	background-color: #2a2a2a;
+	font-family: 'Garamond', serif;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .create-spot-page h1 {
-  font-size: 2rem;
-  color: #f5c518;
+	font-size: 2rem;
+	color: #f5c518;
 }
 
 .create-spot-page form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
 
 .create-spot-page input,
 .create-spot-page textarea {
-  font-size: 1rem;
-  padding: 10px;
-  border: 1px solid #444;
-  border-radius: 5px;
-  background-color: #1b1b1b;
-  color: #e0e0e0;
-  margin-top: 5px;
-  width: 100%; /* Ensure the input fields take up 100% of their container */
-  box-sizing: border-box; /* Include padding and border in the element's total width */
+	font-size: 1rem;
+	padding: 10px;
+	border: 1px solid #444;
+	border-radius: 5px;
+	background-color: #1b1b1b;
+	color: #e0e0e0;
+	margin-top: 5px;
+	width: 100%; /* Ensure the input fields take up 100% of their container */
+	box-sizing: border-box; /* Include padding and border in the element's total width */
 }
 
 .form-group {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
 }
 
 .form-label {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  margin-right: 20px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	margin-right: 20px;
 }
 
 .form-label:last-child {
-  margin-right: 0;
+	margin-right: 0;
 }
 
 .form-input {
-  padding: 10px;
-  border: 1px solid #444;
-  border-radius: 5px;
-  background-color: #1b1b1b;
-  color: #e0e0e0;
-  margin-top: 5px;
-  width: calc(100% - 22px);
+	padding: 10px;
+	border: 1px solid #444;
+	border-radius: 5px;
+	background-color: #1b1b1b;
+	color: #e0e0e0;
+	margin-top: 5px;
+	width: calc(100% - 22px);
 }
 
 /* Specific styling for the select input to match the input fields */
 .select-input {
-  appearance: none; /* Remove the default arrow */
-  background-color: #1b1b1b; /* Match background */
-  color: #e0e0e0; /* Match text color */
-  padding: 10px; /* Match padding */
-  border: 1px solid #444; /* Match border */
-  border-radius: 5px; /* Match border radius */
-  width: calc(100% - 22px); /* Match width */
-  cursor: pointer;
+	appearance: none; /* Remove the default arrow */
+	background-color: #1b1b1b; /* Match background */
+	color: #e0e0e0; /* Match text color */
+	padding: 10px; /* Match padding */
+	border: 1px solid #444; /* Match border */
+	border-radius: 5px; /* Match border radius */
+	width: calc(100% - 22px); /* Match width */
+	cursor: pointer;
 }
 
 /* Add custom arrow for the dropdown */
 .select-input::after {
-  content: '▼';
-  font-size: 12px;
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  pointer-events: none;
-  color: #e0e0e0; /* Match arrow color with text color */
+	content: '▼';
+	font-size: 12px;
+	position: absolute;
+	right: 15px;
+	top: 15px;
+	pointer-events: none;
+	color: #e0e0e0; /* Match arrow color with text color */
 }
 
 /* Ensure the dropdown options match the form styling */
 .select-input option {
-  background-color: #1b1b1b;
-  color: #e0e0e0;
-  padding: 10px;
+	background-color: #1b1b1b;
+	color: #e0e0e0;
+	padding: 10px;
 }
 
 .inline-fields {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .comma {
-  margin: 0 10px;
-  color: #e0e0e0;
-  font-size: 1.2rem;
+	margin: 0 10px;
+	color: #e0e0e0;
+	font-size: 1.2rem;
 }
 
 .errors {
-  border: 1px solid #ff8888;
-  border-radius: 5px;
-  padding: 10px;
-  color: #d8000c;
+	padding: 10px;
+	color: #d8000c;
 }
 
 .error-message {
-  margin: 0;
-  color: #d8000c;
+	margin: 0;
+	color: #d8000c;
 }
 
 .create-spot-page button {
-  padding: 15px;
-  border: none;
-  border-radius: 5px;
-  background-color: #4caf50;
-  color: #fff;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.2s;
+	padding: 15px;
+	border: none;
+	border-radius: 5px;
+	background-color: #4caf50;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: background-color 0.2s;
 }
 
 .create-spot-page button:hover {
-  background-color: #45a049;
+	background-color: #45a049;
 }
 
 .image-url-input {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
 }
 
-.image-url-input input[type="checkbox"] {
-  margin-right: 10px;
-  width: 20px;
+.image-url-input input[type='checkbox'] {
+	margin-right: 10px;
+	width: 20px;
 }
 
 .url-input {
-  flex-grow: 1;
-  margin-right: 10px;
+	flex-grow: 1;
+	margin-right: 10px;
 }
 
 .image-options,
 .url-image-options {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
+	display: flex;
+	gap: 10px;
+	margin-top: 10px;
 }
 
 .image-options button,
 .url-image-options button {
-  padding: 5px 10px;
-  border: none;
-  background-color: #007bff; /* Normal button color */
-  color: white;
-  cursor: pointer;
-  border-radius: 3px;
+	padding: 5px 10px;
+	border: none;
+	background-color: #007bff; /* Normal button color */
+	color: white;
+	cursor: pointer;
+	border-radius: 3px;
 }
 
 .image-options button:disabled,
 .url-image-options button:disabled {
-  background-color: gray;
-  cursor: not-allowed;
+	background-color: gray;
+	cursor: not-allowed;
 }
 
 .uploaded-images-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
-  align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 10px;
+	align-items: center;
 }
 
 .uploaded-image-item {
-  position: relative;
+	position: relative;
 }
 
 .image-checkbox-container {
-  position: relative;
+	position: relative;
 }
 
-.image-checkbox-container input[type="checkbox"] {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  z-index: 2;
-  width: 20px;
-  height: 20px;
+.image-checkbox-container input[type='checkbox'] {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	z-index: 2;
+	width: 20px;
+	height: 20px;
 }
 
 .uploaded-image-preview {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+	border: 1px solid #ccc;
+	border-radius: 5px;
 }
 
 .preview-image-label {
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #4caf50; /* Matches the form submit button */
-  color: white;
-  padding: 2px 5px;
-  border-radius: 3px;
-  font-size: 12px;
+	position: absolute;
+	bottom: -10px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #4caf50; /* Matches the form submit button */
+	color: white;
+	padding: 2px 5px;
+	border-radius: 3px;
+	font-size: 12px;
 }
 
 .image-container {
-  position: relative;
-  display: inline-block;
-  border: 2px solid #4caf50; /* Match the form submit button color */
-  border-radius: 5px;
-  padding: 5px;
+	position: relative;
+	display: inline-block;
+	border: 2px solid #4caf50; /* Match the form submit button color */
+	border-radius: 5px;
+	padding: 5px;
 }
 
 .add-url-link {
-  margin-top: 5px;
-  margin-bottom: 10px;
-  font-size: 1.2rem;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	font-size: 1.2rem;
 }
 
 .plus {
-  font-size: 1rem;
-  justify-self: center;
-  align-self: center;
+	font-size: 1rem;
+	justify-self: center;
+	align-self: center;
 }
 
 .deprecation-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
 }
 
 .deprecation-modal-content {
-  background-color: rgb(5, 5, 5);
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-  max-width: 500px;
-  width: 90%;
+	background-color: rgb(5, 5, 5);
+	padding: 20px;
+	border-radius: 5px;
+	text-align: center;
+	max-width: 500px;
+	width: 90%;
 }
 
 .deprecation-modal-content p {
-  margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .deprecation-modal-content button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
 }
 
 .deprecation-modal-content button:hover {
-  background-color: #0056b3;
+	background-color: #0056b3;
 }
