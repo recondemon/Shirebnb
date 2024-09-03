@@ -537,131 +537,131 @@ module.exports = {
         // Gondor - Citadel Suite
         {
           spotId: 21,
-          url: "/Gondor/CitadelSuite/CitadelSuite1.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/CitadelSuite/CitadelSuite1.webp",
           preview: true,
         },
         {
           spotId: 21,
-          url: "/Gondor/CitadelSuite/CitadelSuite2.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/CitadelSuite/CitadelSuite2.webp",
           preview: false,
         },
         {
           spotId: 21,
-          url: "/Gondor/CitadelSuite/CitadelSuite3.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/CitadelSuite/CitadelSuite3.webp",
           preview: false,
         },
         {
           spotId: 21,
-          url: "/Gondor/CitadelSuite/CitadelSuite4.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/CitadelSuite/CitadelSuite4.webp",
           preview: false,
         },
         {
           spotId: 21,
-          url: "/Gondor/CitadelSuite/CitadelSuite5.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/CitadelSuite/CitadelSuite5.webp",
           preview: false,
         },
         // Gondor - Frodo's House
         {
           spotId: 22,
-          url: "/Gondor/FrodosHouse/FrodosHouse1.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/FrodosHouse/FrodosHouse1.webp",
           preview: true,
         },
         {
           spotId: 22,
-          url: "/Gondor/FrodosHouse/FrodosHouse2.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/FrodosHouse/FrodosHouse2.webp",
           preview: false,
         },
         {
           spotId: 22,
-          url: "/Gondor/FrodosHouse/FrodosHouse3.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/FrodosHouse/FrodosHouse3.webp",
           preview: false,
         },
         {
           spotId: 22,
-          url: "/Gondor/FrodosHouse/FrodosHouse4.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/FrodosHouse/FrodosHouse4.webp",
           preview: false,
         },
         {
           spotId: 22,
-          url: "/Gondor/FrodosHouse/FrodosHouse5.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/FrodosHouse/FrodosHouse5.webp",
           preview: false,
         },
         // Gondor - Sam's House
         {
           spotId: 23,
-          url: "/Gondor/SamsHouse/SamsHouse1.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/SamsHouse/SamsHouse1.webp",
           preview: true,
         },
         {
           spotId: 23,
-          url: "/Gondor/SamsHouse/SamsHouse2.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/SamsHouse/SamsHouse2.webp",
           preview: false,
         },
         {
           spotId: 23,
-          url: "/Gondor/SamsHouse/SamsHouse3.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/SamsHouse/SamsHouse3.webp",
           preview: false,
         },
         {
           spotId: 23,
-          url: "/Gondor/SamsHouse/SamsHouse4.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/SamsHouse/SamsHouse4.webp",
           preview: false,
         },
         {
           spotId: 23,
-          url: "/Gondor/SamsHouse/SamsHouse5.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/SamsHouse/SamsHouse5.webp",
           preview: false,
         },
         // Gondor - Aragorn's Palace
         {
           spotId: 24,
-          url: "/Gondor/AragornsPalace/AragornsPalace1.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/AragornsPalace/AragornsPalace1.webp",
           preview: true,
         },
         {
           spotId: 24,
-          url: "/Gondor/AragornsPalace/AragornsPalace2.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/AragornsPalace/AragornsPalace2.webp",
           preview: false,
         },
         {
           spotId: 24,
-          url: "/Gondor/AragornsPalace/AragornsPalace3.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/AragornsPalace/AragornsPalace4.webp",
           preview: false,
         },
         {
           spotId: 24,
-          url: "/Gondor/AragornsPalace/AragornsPalace4.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/AragornsPalace/AragornsPalace3.webp",
           preview: false,
         },
         {
           spotId: 24,
-          url: "/Gondor/AragornsPalace/AragornsPalace5.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/AragornsPalace/AragornsPalace5.webp",
           preview: false,
         },
         // Gondor - Boromir's House
         {
           spotId: 25,
-          url: "/Gondor/BoromirsHouse/BoromirsHouse1.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/BoromirsHouse/BoromirsHouse1.webp",
           preview: true,
         },
         {
           spotId: 25,
-          url: "/Gondor/BoromirsHouse/BoromirsHouse2.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/BoromirsHouse/BoromirsHouse2.webp",
           preview: false,
         },
         {
           spotId: 25,
-          url: "/Gondor/BoromirsHouse/BoromirsHouse3.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/BoromirsHouse/BoromirsHouse3.webp",
           preview: false,
         },
         {
           spotId: 25,
-          url: "/Gondor/BoromirsHouse/BoromirsHouse4.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/BoromirsHouse/BoromirsHouse4.webp",
           preview: false,
         },
         {
           spotId: 25,
-          url: "/Gondor/BoromirsHouse/BoromirsHouse5.png",
+          url: "https://shirebnb.s3.us-east-2.amazonaws.com/BoromirsHouse/BoromirsHouse5.webp",
           preview: false,
         },
       ],
