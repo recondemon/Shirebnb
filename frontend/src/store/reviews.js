@@ -30,22 +30,25 @@ export const fetchReviewsBySpotId = spotId => async dispatch => {
 };
 
 export const createReview =
-	({ spotId, review, stars }) =>
-	async dispatch => {
-		const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
-			method: 'POST',
-			body: JSON.stringify({ review, stars }),
-		});
+  ({ spotId, review, stars }) =>
+  async dispatch => {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ review, stars }),
+    });
 
-		if (response.ok) {
-			const newReview = await response.json();
-			dispatch(addReview(newReview));
-			return newReview;
-		} else {
-			const errorData = await response.json();
-			throw new Error(errorData.message);
-		}
-	};
+    if (response.ok) {
+      const newReview = await response.json();
+      dispatch(addReview(newReview)); // Ensure this review includes the User data
+      return newReview;
+    } else {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+  };
 
 export const deleteReview = reviewId => async dispatch => {
 	const response = await csrfFetch(`/api/reviews/${reviewId}`, {

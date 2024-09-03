@@ -636,7 +636,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 router.post("/:spotId/reviews", async (req, res) => {
   const { spotId } = req.params;
   const { review, stars } = req.body;
-  const userId = req.user.id; // Assuming you have user authentication set up
+  const userId = req.user.id;
 
   try {
     const spot = await Spot.findByPk(spotId);
@@ -655,7 +655,15 @@ router.post("/:spotId/reviews", async (req, res) => {
       stars,
     });
 
-    res.status(201).json(newReview);
+    // Fetch the full review with user details
+    const createdReview = await Review.findByPk(newReview.id, {
+      include: {
+        model: User,
+        attributes: ["firstName", "lastName"],
+      },
+    });
+
+    res.status(201).json(createdReview);
   } catch (err) {
     res.status(500).json({
       title: "Server Error",

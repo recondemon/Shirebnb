@@ -24,7 +24,7 @@ function ReviewModal({ spotId, onClose }) {
 		try {
 			const newReview = await dispatch(createReview({ spotId, review, stars }));
 			if (newReview) {
-				onClose();
+				onClose(); // Close the modal immediately
 			}
 		} catch (error) {
 			const errorData = await error.json();
