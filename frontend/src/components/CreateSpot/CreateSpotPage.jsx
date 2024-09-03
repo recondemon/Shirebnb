@@ -185,7 +185,6 @@ function CreateSpotPage() {
 	// Function to validate image URLs and files
 	const validateImages = () => {
 		const errors = {};
-	
 		let imageProvided = false;
 	
 		images.forEach((image) => {
@@ -204,6 +203,7 @@ function CreateSpotPage() {
 			errors.noImage = 'Please provide at least one image.';
 		}
 	
+		setImageErrors(errors);
 		return errors;
 	};
 
@@ -625,6 +625,8 @@ function CreateSpotPage() {
 				)}
 				{errors.global && <p className="error-message">{errors.global}</p>}
 				{errors && <p className="error-message">{errors.global}</p>}
+
+
 
 				{/* Deprecation Notice Modal */}
 				{showDeprecationNotice && (
