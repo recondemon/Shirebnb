@@ -106,6 +106,10 @@
 	color: #d8000c;
 }
 
+.priceInput {
+	display: flex;
+}
+
 .error-message {
 	margin: 0;
 	color: #d8000c;

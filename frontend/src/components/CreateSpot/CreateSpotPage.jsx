@@ -135,8 +135,36 @@ function CreateSpotPage() {
 		const errors = {};
 
 		// Validate address
-		if (address.length < 5) {
-			errors.address = 'Street address must be at least 5 characters long';
+		if (address.length < 10) {
+			errors.address = 'Street address must be at least 10 characters long';
+		}
+
+		if (address.length > 254) {
+			errors.address = 'Street address must be no longer than 255 characters long';
+		}
+
+		if (city.length < 5) {
+			errors.address = 'City must be at least 5 character long';
+		}
+
+		if (city.length > 99) {
+			errors.address = 'City must be no longer than 100 characters long';
+		}
+
+		if (state.length < 5) {
+			errors.address = 'State must be at least 5 characters long';
+		}
+
+		if (state.length > 49) {
+			errors.address = 'State must be no longer than 50 characters long';
+		}
+
+		if (country.length < 5) {
+			errors.address = 'Country must be at least 5 characters long';
+		}
+
+		if (country.length > 99) {
+			errors.address = 'Country must be no longer than 100 characters long';
 		}
 
 		// Validate description
@@ -204,14 +232,6 @@ function CreateSpotPage() {
 			setPreviewImage(newImages[index].url);
 		}
 	};
-
-	// const validateAddress = () => {
-	//   const errors = {};
-	//   if (address.length < 5) {
-	//     errors.address = 'Street address must be at least 5 characters long';
-	//   }
-	//   return errors;
-	// };
 
 	const handleSubmit = async e => {
 		e.preventDefault();
@@ -592,6 +612,13 @@ function CreateSpotPage() {
 						</div>
 					)}
 				</div>
+				{submitErrors.state && (
+					<p className="error-message">{submitErrors.state}</p>
+				)}
+				{submitErrors.country && (
+					<p className="error-message">{submitErrors.country}</p>
+				)}
+
 				{submitErrors.address && (
 					<p className="error-message">{submitErrors.address}</p>
 				)}
