@@ -79,6 +79,7 @@ export const fetchUserSpots = () => async dispatch => {
 };
 
 export const createSpot = spotData => async dispatch => {
+	console.log('Sending data:', spotData); 
 	const response = await csrfFetch('/api/spots', {
 		method: 'POST',
 		headers: {

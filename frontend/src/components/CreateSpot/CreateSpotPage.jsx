@@ -143,24 +143,24 @@ function CreateSpotPage() {
 			errors.address = 'Street address must be no longer than 255 characters long';
 		}
 
-		if (city.length < 5) {
-			errors.address = 'City must be at least 5 character long';
+		if (city.length < 2) {
+			errors.address = 'City must be at least 2 character long';
 		}
 
 		if (city.length > 99) {
 			errors.address = 'City must be no longer than 100 characters long';
 		}
 
-		if (state.length < 5) {
-			errors.address = 'State must be at least 5 characters long';
+		if (state.length < 2) {
+			errors.address = 'State must be at least 2 characters long';
 		}
 
 		if (state.length > 49) {
 			errors.address = 'State must be no longer than 50 characters long';
 		}
 
-		if (country.length < 5) {
-			errors.address = 'Country must be at least 5 characters long';
+		if (country.length < 2) {
+			errors.address = 'Country must be at least 2 characters long';
 		}
 
 		if (country.length > 99) {
@@ -185,32 +185,25 @@ function CreateSpotPage() {
 	// Function to validate image URLs and files
 	const validateImages = () => {
 		const errors = {};
-		const validImageUrlRegex = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif))$/i;
-
+	
 		let imageProvided = false;
-
-		images.forEach((image, index) => {
-			if (image.url) {
-				if (!validImageUrlRegex.test(image.url)) {
-					errors[index] = `Image URL ${index + 1} is not valid.`;
-				} else {
-					imageProvided = true;
-				}
-			} else if (image.file) {
+	
+		images.forEach((image) => {
+			if (image.url || image.file) {
 				imageProvided = true;
 			}
 		});
-
+	
 		if (!previewImage) {
 			errors.noPreview = 'Please select a preview image.';
 		} else {
 			imageProvided = true;
 		}
-
+	
 		if (!imageProvided) {
 			errors.noImage = 'Please provide at least one image.';
 		}
-
+	
 		return errors;
 	};
 
@@ -234,79 +227,81 @@ function CreateSpotPage() {
 	};
 
 	const handleSubmit = async e => {
-		e.preventDefault();
-		setErrors({});
-		setSubmitErrors({});
-		setImageErrors({});
+    e.preventDefault();
+    console.log('Form submitted');
+    setErrors({});
+    setSubmitErrors({});
+    setImageErrors({});
 
-		// Validate form fields
-		const validationErrors = validateFields();
+    // Validate form fields
+    const validationErrors = validateFields();
 
-		if (Object.keys(validationErrors).length > 0) {
-			setSubmitErrors(validationErrors);
-			return;
-		}
+    if (Object.keys(validationErrors).length > 0) {
+        setSubmitErrors(validationErrors);
+        return;
+    }
 
-		const newSpot = {
-			address,
-			city,
-			state,
-			country,
-			name,
-			description,
-			price: parseFloat(price),
-			previewImage,
-		};
+    const newSpot = {
+        address,
+        city,
+        state,
+        country,
+        name,
+        description,
+        price: parseFloat(price),
+        previewImage,
+    };
 
-		if (lat) newSpot.lat = parseFloat(lat);
-		if (lng) newSpot.lng = parseFloat(lng);
+    if (lat) newSpot.lat = parseFloat(lat);
+    if (lng) newSpot.lng = parseFloat(lng);
 
-		try {
-			const createdSpot = await dispatch(createSpot(newSpot));
-			if (createdSpot) {
-				for (let image of images) {
-					if (image.tempId) {
-						// Associate the temporary image with the newly created spot
-						await dispatch(
-							addImageToSpot(createdSpot.id, {
-								tempId: image.tempId,
-								preview: image.url === previewImage,
-							})
-						);
-					} else if (image.url) {
-						// Add URL-based image
-						await dispatch(
-							addImageToSpot(createdSpot.id, {
-								url: image.url,
-								preview: image.url === previewImage,
-							})
-						);
-					}
-				}
+    try {
+        const createdSpot = await dispatch(createSpot(newSpot));
+        console.log('Created spot:', createdSpot); 
+        if (createdSpot) {
+            for (let image of images) {
+                if (image.tempId) {
+                    // Associate the temporary image with the newly created spot
+                    await dispatch(
+                        addImageToSpot(createdSpot.id, {
+                            tempId: image.tempId,
+                            preview: image.url === previewImage,
+                        })
+                    );
+                } else if (image.url) {
+                    // Add URL-based image
+                    await dispatch(
+                        addImageToSpot(createdSpot.id, {
+                            url: image.url,
+                            preview: image.url === previewImage,
+                        })
+                    );
+                }
+            }
 
-				// Reset form state after successful submission
-				setAddress('');
-				setCity('');
-				setState('');
-				setCountry('');
-				setLat('');
-				setLng('');
-				setName('');
-				setDescription('');
-				setPrice('');
-				setPreviewImage('');
-				setImages([]);
+            // Reset form state after successful submission
+            setAddress('');
+            setCity('');
+            setState('');
+            setCountry('');
+            setLat('');
+            setLng('');
+            setName('');
+            setDescription('');
+            setPrice('');
+            setPreviewImage('');
+            setImages([]);
 
-				// Navigate to the newly created spot's details page
-				navigate(`/spots/${createdSpot.id}`);
-			}
-		} catch (error) {
-			const errorData = error.json
-				? await error.json()
-				: { global: 'An unexpected error occurred' };
-			setErrors(errorData.errors || { global: 'An unexpected error occurred' });
-		}
-	};
+            // Navigate to the newly created spot's details page
+            navigate(`/spots/${createdSpot.id}`);
+        }
+    } catch (error) {
+        const errorData = error.json
+            ? await error.json()
+            : { global: 'An unexpected error occurred' };
+        setErrors(errorData.errors || { global: 'An unexpected error occurred' });
+    }
+};
 
 	return (
 		<div className="create-spot-page">
